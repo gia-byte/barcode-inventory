@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oriental Photographix - Scan Mode</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR4nO2WsUoDQRCGv0QwYiFYiI1gI1hZWFhYWVn4CL6Aj+Aj+Ag+go+Qh7CwsLKwsrKysLCwEAQLC0EQLETk4IbZy+5lL3eJhfnhYJfdnf/bmZ3dheqqq64WBegBBsAYMAFcAbfAB/AL/ADXwAQwCvQDHW1BfwgYBaaAZ8CX6AmYBgaBtnrQd2rAHwI+Y+gP+ATGgVpT0HfqhH+uEP0nMAt01oO+Uxf8eSX6S+AAWIE1kI0BO8BppegvgY16oO/UDJ9XQD8C9IfQu8AxMBNC/wZsVoX+SfSnFdBvhqDfpvz7T4H1sug/q6DfCqE/A/Yqol9LQb9bBv1OBfSbIfTTknkQp1lgMWL9B7CSQP+hbAIuK6DvikHvJdCbJaMAm4Bn1XwAfWXQW0oE+3FLbKaMbqvvHrFR+z0Dvmfot1LQ91VTk8C9Gn4CuqPohyXTpqTQjxTl9IbegJv0InH0CxL5tfiTO0VbNGnF0Y9K5tuiIu0D31rXHjBUBL0jmXeL6pwDvs2qc7cI+hHJ7MVVpy0n3gTQLRYaAXaBU039TzVbdP2v+gOs6IVwWJWiTgAAAABJRU5ErkJggg==">
+  <style>
+    /* ─── Copied verbatim from inventory_system.html ─── */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .top-header {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+
+    .top-header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .top-header nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-header nav a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .top-header nav a:hover, .top-header nav a.active {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    .main-content {
+      padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .main-content { padding: 2rem; }
+    }
+
+    .stats-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      border-left: 4px solid #007bff;
+      transition: transform 0.2s ease;
+      margin-bottom: 1rem;
+    }
+
+    .stats-card:hover { transform: translateY(-2px); }
+    .stats-card.success { border-color: #28a745; }
+    .stats-card.warning { border-color: #ffc107; }
+    .stats-card.danger  { border-color: #dc3545; }
+
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #003366;
+    }
+
+    .inventory-table {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .table th {
+      background-color: #f8f9fa;
+      border: none;
+      font-weight: 600;
+      color: #495057;
+      padding: 1rem;
+      white-space: nowrap;
+    }
+
+    .table td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-color: #e9ecef;
+    }
+
+    .btn-action {
+      padding: 0.375rem 0.75rem;
+      margin: 0 0.25rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-edit  { background-color: #ffc107; color: #212529; }
+    .btn-edit:hover  { background-color: #ffb300; transform: scale(1.05); }
+    .btn-delete { background-color: #dc3545; color: white; }
+    .btn-delete:hover { background-color: #c82333; transform: scale(1.05); }
+
+    .stock-status {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .stock-high   { background-color: #d4edda; color: #155724; }
+    .stock-medium { background-color: #fff3cd; color: #856404; }
+    .stock-low    { background-color: #f8d7da; color: #721c24; }
+
+    .search-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+    }
+
+    .modal-header .btn-close { filter: invert(1); }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .loading-spinner.active { display: block; }
+
+    .connection-status {
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.875rem;
+      margin-left: 1rem;
+    }
+
+    .connected    { background-color: #28a745; color: white; }
+    .disconnected { background-color: #dc3545; color: white; }
+
+    @media (max-width: 768px) {
+      .top-header { flex-direction: column; text-align: center; }
+      .top-header nav { margin-top: 1rem; justify-content: center; }
+      .stats-number { font-size: 1.5rem; }
+      .table { font-size: 0.875rem; }
+      .search-section .row > div { margin-bottom: 0.5rem; }
+    }
+
+    /* ─── Scan Mode specific styles ─── */
+
+    /* Mode toggle tabs — uses search-section styling */
+    .scan-tabs {
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #dee2e6;
+      margin-bottom: 1.25rem;
+    }
+
+    .scan-tab {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      background: white;
+      border: none;
+      border-right: 1px solid #dee2e6;
+      color: #6c757d;
+      font-size: 0.875rem;
+      font-family: 'Segoe UI', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .scan-tab:last-child { border-right: none; }
+    .scan-tab:hover { background: #f8f9fa; color: #003366; }
+
+    .scan-tab.active {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+    }
+
+    /* Barcode input */
+    .barcode-wrap { position: relative; }
+
+    .barcode-wrap .input-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #003366;
+      opacity: 0.4;
+    }
+
+    #barcodeInput {
+      width: 100%;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 0.75rem 1rem 0.75rem 2.8rem;
+      font-size: 1rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+      color: #003366;
+      outline: none;
+      background: #f8f9fa;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    #barcodeInput:focus {
+      border-color: #004080;
+      box-shadow: 0 0 0 0.2rem rgba(0,64,128,0.15);
+      background: white;
+    }
+
+    #barcodeInput::placeholder {
+      color: #adb5bd;
+      font-family: 'Segoe UI', sans-serif;
+      letter-spacing: 0;
+      font-size: 0.9rem;
+    }
+
+    /* QR reader */
+    #qrSection { display: none; }
+
+    #qr-reader {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #dee2e6;
+      background: #f8f9fa;
+      min-height: 220px;
+    }
+
+    #qr-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 220px;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: #adb5bd;
+    }
+
+    /* Qty controls */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-top: 1px solid #e9ecef;
+      border-bottom: 1px solid #e9ecef;
+      margin: 1rem 0;
+    }
+
+    .qty-label { font-weight: 600; color: #495057; font-size: 0.875rem; white-space: nowrap; }
+
+    .qty-controls { display: flex; align-items: center; }
+
+    .qty-btn {
+      width: 34px; height: 34px;
+      border: 1px solid #dee2e6;
+      background: white;
+      color: #495057;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .qty-btn:first-child { border-radius: 6px 0 0 6px; }
+    .qty-btn:last-child  { border-radius: 0 6px 6px 0; }
+    .qty-btn:hover { background: #e9ecef; color: #003366; }
+
+    #qtyInput {
+      width: 55px; height: 34px;
+      border: 1px solid #dee2e6;
+      border-left: none; border-right: none;
+      text-align: center;
+      font-size: 0.95rem; color: #003366; font-weight: 600;
+      outline: none;
+    }
+
+    /* Action buttons — styled like btn-edit / btn-delete */
+    .btn-checkin, .btn-checkout {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.875rem;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      flex: 1;
+    }
+
+    .btn-checkin  { background-color: #28a745; color: white; }
+    .btn-checkout { background-color: #ffc107; color: #212529; }
+    .btn-checkin:hover:not(:disabled)  { background-color: #218838; transform: scale(1.02); }
+    .btn-checkout:hover:not(:disabled) { background-color: #ffb300; transform: scale(1.02); }
+    .btn-checkin:disabled, .btn-checkout:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    /* Item detail card */
+    .item-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .item-empty i { font-size: 3rem; color: #ccc; display: block; margin-bottom: 0.75rem; }
+
+    .item-image-box {
+      width: 100%; height: 150px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: #f8f9fa; border: 1px solid #e9ecef;
+      overflow: hidden; margin-bottom: 1rem;
+    }
+
+    .item-image-box img { width: 100%; height: 100%; object-fit: contain; }
+
+    /* Toast — bottom-right */
+    .feedback-toast {
+      position: fixed;
+      bottom: 1.5rem; right: 1.5rem;
+      min-width: 280px; max-width: 340px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      padding: 1rem 1.25rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      z-index: 9999;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      border-left: 4px solid #28a745;
+    }
+
+    .feedback-toast.show      { transform: translateX(0); }
+    .feedback-toast.t-warning { border-color: #ffc107; }
+    .feedback-toast.t-danger  { border-color: #dc3545; }
+
+    .toast-icon         { font-size: 1.4rem; }
+    .toast-icon.success { color: #28a745; }
+    .toast-icon.warning { color: #856404; }
+    .toast-icon.danger  { color: #dc3545; }
+
+    .toast-title { font-weight: 700; color: #212529; font-size: 0.9rem; }
+    .toast-sub   { font-size: 0.8rem; color: #6c757d; margin-top: 0.1rem; }
+
+    /* Log table row flash */
+    .log-row-new td { animation: row-flash 1.2s ease; }
+
+    @keyframes row-flash {
+      0%   { background: rgba(0,64,128,0.07); }
+      100% { background: transparent; }
+    }
+
+    .log-scroll { max-height: 260px; overflow-y: auto; }
+    .log-scroll::-webkit-scrollbar { width: 4px; }
+    .log-scroll::-webkit-scrollbar-track { background: #f8f9fa; }
+    .log-scroll::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- Header — exact copy from inventory_system.html -->
+  <header class="top-header">
+    <div>
+      <h1>
+        <img src="logo.png" alt="" style="height:40px; margin-right:8px; vertical-align:middle;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+        <i class="bi bi-camera" style="display:none;"></i>
+        ORIENTAL PHOTOGRAPHIX
+      </h1>
+      <span class="connection-status disconnected" id="connectionStatus">
+        <i class="bi bi-circle-fill"></i> Connecting...
+      </span>
+    </div>
+    <nav>
+      <a href="admin.html">Dashboard</a>
+      <a href="inventory_system.html">Inventory</a>
+      <a href="scan_mode.html" class="active">Scan Mode</a>
+      <a href="logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <div id="alertContainer"></div>
+
+    <!-- Loading spinner — same as inventory_system -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading inventory data...</p>
+    </div>
+
+    <!-- Stats cards — exact same markup as inventory_system.html -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-6">
+        <div class="stats-card success">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-success" id="statIn">0</div>
+              <div class="text-muted">Units Added</div>
+            </div>
+            <i class="bi bi-plus-circle text-success" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card warning">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-warning" id="statOut">0</div>
+              <div class="text-muted">Units Removed</div>
+            </div>
+            <i class="bi bi-dash-circle text-warning" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-primary" id="statScans">0</div>
+              <div class="text-muted">Items Scanned</div>
+            </div>
+            <i class="bi bi-upc-scan text-primary" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card danger">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-danger" id="statErrors">0</div>
+              <div class="text-muted">Not Found</div>
+            </div>
+            <i class="bi bi-exclamation-triangle text-danger" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="row">
+
+      <!-- LEFT: Scanner + Log -->
+      <div class="col-lg-7">
+
+        <!-- Scanner — uses search-section card style -->
+        <div class="search-section">
+          <h6 class="mb-3 fw-bold" style="color:#003366;">
+            <i class="bi bi-upc-scan me-1"></i> Scanner Input
+          </h6>
+
+          <!-- Mode tabs -->
+          <div class="scan-tabs">
+            <button class="scan-tab active" id="tab1d" onclick="setMode('1d')">
+              <i class="bi bi-upc"></i> 1D Barcode (USB Scanner)
+            </button>
+            <button class="scan-tab" id="tabQR" onclick="setMode('qr')">
+              <i class="bi bi-qr-code-scan"></i> QR Code (Camera)
+            </button>
+          </div>
+
+          <!-- 1D input -->
+          <div id="onedSection">
+            <div class="barcode-wrap">
+              <i class="bi bi-upc-scan input-icon"></i>
+              <input type="text"
+                     id="barcodeInput"
+                     placeholder="Scan barcode or type item code..."
+                     autocomplete="off"
+                     autofocus>
+            </div>
+            <p class="text-muted mt-2 mb-0" style="font-size:0.8rem; text-align:center;">
+              <i class="bi bi-lightning-charge-fill text-warning"></i>
+              Scanner auto-submits on Enter &nbsp;·&nbsp; Field stays focused after each scan
+            </p>
+          </div>
+
+          <!-- QR input -->
+          <div id="qrSection">
+            <div id="qr-reader">
+              <div id="qr-placeholder">
+                <i class="bi bi-camera" style="font-size:2.5rem;"></i>
+                <span style="font-size:0.875rem;">Camera not started</span>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-2">
+              <button class="btn btn-success flex-fill" id="startQrBtn" onclick="startQR()">
+                <i class="bi bi-camera-video"></i> Start Camera
+              </button>
+              <button class="btn btn-danger flex-fill" id="stopQrBtn"
+                      onclick="stopQR()" style="display:none;">
+                <i class="bi bi-camera-video-off"></i> Stop Camera
+              </button>
+            </div>
+            <p class="text-muted mt-2 mb-0" style="font-size:0.8rem; text-align:center;">
+              <i class="bi bi-info-circle"></i>
+              Point camera at a QR code — auto-detects and loads item
+            </p>
+          </div>
+
+          <!-- Qty row -->
+          <div class="qty-row">
+            <span class="qty-label"><i class="bi bi-123 me-1"></i> Quantity:</span>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="adjustQty(-1)">−</button>
+              <input type="number" id="qtyInput" value="1" min="1" max="999">
+              <button class="qty-btn" onclick="adjustQty(1)">+</button>
+            </div>
+            <small class="text-muted">units per action</small>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="d-flex gap-2">
+            <button class="btn-checkin" id="checkinBtn"
+                    onclick="doStockAction('in')" disabled>
+              <i class="bi bi-plus-circle-fill"></i> Check In (Add Stock)
+            </button>
+            <button class="btn-checkout" id="checkoutBtn"
+                    onclick="doStockAction('out')" disabled>
+              <i class="bi bi-dash-circle-fill"></i> Check Out (Remove)
+            </button>
+          </div>
+        </div>
+
+        <!-- Session Log — uses inventory-table card style -->
+        <div class="inventory-table">
+          <div style="padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e9ecef;">
+            <span class="fw-bold" style="color:#003366; font-size:0.95rem;">
+              <i class="bi bi-clock-history me-1"></i> Session Log
+            </span>
+            <button class="btn btn-sm btn-outline-secondary" onclick="clearLog()">
+              <i class="bi bi-trash"></i> Clear
+            </button>
+          </div>
+          <div class="log-scroll">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Item</th>
+                  <th>Code</th>
+                  <th>Qty</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="sessionLog">
+                <tr id="logEmpty">
+                  <td colspan="5" class="text-center py-4">
+                    <i class="bi bi-clock-history" style="font-size:2rem; color:#ccc;"></i>
+                    <p class="mt-2 text-muted mb-0">No scans yet this session</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Item Details -->
+      <div class="col-lg-5">
+        <div class="inventory-table" style="position:sticky; top:20px;">
+          <div style="padding:1rem 1.25rem; border-bottom:1px solid #e9ecef;">
+            <span class="fw-bold" style="color:#003366; font-size:0.95rem;">
+              <i class="bi bi-box-seam me-1"></i> Item Details
+            </span>
+          </div>
+          <div style="padding:1.5rem;">
+
+            <!-- Empty state -->
+            <div class="item-empty" id="itemEmpty">
+              <i class="bi bi-upc-scan"></i>
+              <p class="text-muted mb-0">Scan a barcode or QR code<br>to load item details here</p>
+            </div>
+
+            <!-- Item card -->
+            <div id="itemCard" style="display:none;">
+
+              <div class="item-image-box">
+                <img id="itemImage" src="" alt="" style="display:none;">
+                <i class="bi bi-image text-muted" id="itemNoImg" style="font-size:2.5rem;"></i>
+              </div>
+
+              <!-- Item code — same badge style as table -->
+              <div class="mb-1">
+                <strong id="itemCodeDisplay"
+                  style="font-family:'Courier New',monospace; font-size:0.85rem; background:#e9ecef; padding:0.2rem 0.5rem; border-radius:4px;">
+                  —
+                </strong>
+                <small class="text-muted ms-1" id="barcodeSublabel"></small>
+              </div>
+
+              <div class="fw-bold mb-3" style="font-size:1.1rem; color:#003366;" id="itemName">—</div>
+
+              <!-- Details grid — same as modal fields layout -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <div class="p-2 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
+                    <div class="text-muted" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Category</div>
+                    <div class="fw-semibold" style="font-size:0.875rem;" id="itemCategory">—</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-2 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
+                    <div class="text-muted" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Brand</div>
+                    <div class="fw-semibold" style="font-size:0.875rem;" id="itemBrand">—</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-2 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
+                    <div class="text-muted" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Unit Price</div>
+                    <div class="fw-semibold" style="font-size:0.875rem;" id="itemPrice">—</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-2 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
+                    <div class="text-muted" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Min Stock</div>
+                    <div class="fw-semibold" style="font-size:0.875rem;" id="itemMinStock">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stock progress bar -->
+              <div class="mb-2">
+                <div class="d-flex justify-content-between mb-1" style="font-size:0.8rem; color:#6c757d;">
+                  <span>Stock Level</span>
+                  <span id="stockFraction">—</span>
+                </div>
+                <div class="progress" style="height:8px; border-radius:99px;">
+                  <div class="progress-bar" id="stockBarFill"
+                       style="width:0%; border-radius:99px; transition:width 0.5s;"></div>
+                </div>
+              </div>
+
+              <!-- Status badge — same .stock-status as inventory table -->
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="stock-status" id="stockBadge">—</span>
+              </div>
+
+              <!-- Big quantity display -->
+              <div class="text-center p-3 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
+                <div id="itemQtyBig"
+                     style="font-size:2.5rem; font-weight:700; font-family:'Courier New',monospace; color:#003366; line-height:1;">
+                  —
+                </div>
+                <div class="text-muted" style="font-size:0.78rem; margin-top:0.2rem;">units currently in stock</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end main-content -->
+
+  <!-- Toast notification -->
+  <div class="feedback-toast" id="feedbackToast">
+    <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-circle-fill"></i></div>
+    <div>
+      <div class="toast-title" id="toastTitle">Updated</div>
+      <div class="toast-sub"   id="toastSub"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <script type="module">
+    import { initializeApp }
+      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, query, orderBy,
+             onSnapshot, doc, updateDoc }
+      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase config — same as your other pages
+    const firebaseConfig = {
+      apiKey:            "AIzaSyCTRbqsXKfJ5vADuT3N_Cn_Gm7lznanFfA",
+      authDomain:        "oriental-photographix.firebaseapp.com",
+      projectId:         "oriental-photographix",
+      storageBucket:     "oriental-photographix.appspot.com",
+      messagingSenderId: "304371179783",
+      appId:             "1:304371179783:web:47032045e4e84bc2f8e5a2"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Auth guard — same pattern as your pages
+    onAuthStateChanged(auth, user => {
+      if (!user) window.location.replace('index.html');
+    });
+
+    // State
+    let inventory      = [];
+    let currentItem    = null;
+    let scanMode       = '1d';
+    let html5QrScanner = null;
+    let qrRunning      = false;
+    let statIn         = 0;
+    let statOut        = 0;
+    let statScans      = new Set();
+    let statErrors     = 0;
+
+    // Realtime listener — same pattern as loadInventory() in your pages
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    loadingSpinner.classList.add('active');
+
+    onSnapshot(
+      query(collection(db, 'inventory'), orderBy('itemCode')),
+      snap => {
+        inventory = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        updateConnectionStatus(true);
+        loadingSpinner.classList.remove('active');
+        if (currentItem) {
+          const fresh = inventory.find(i => i.id === currentItem.id);
+          if (fresh) renderItem(fresh, false);
+        }
+      },
+      () => {
+        updateConnectionStatus(false);
+        loadingSpinner.classList.remove('active');
+        showAlert('Error connecting to database. Please check your internet connection.', 'danger');
+      }
+    );
+
+    // updateConnectionStatus — exact copy from inventory_system.html
+    function updateConnectionStatus(connected) {
+      const el = document.getElementById('connectionStatus');
+      if (connected) {
+        el.className = 'connection-status connected';
+        el.innerHTML = '<i class="bi bi-circle-fill"></i> Connected';
+      } else {
+        el.className = 'connection-status disconnected';
+        el.innerHTML = '<i class="bi bi-circle-fill"></i> Disconnected';
+      }
+    }
+
+    // Mode switching
+    window.setMode = function(mode) {
+      scanMode = mode;
+      document.getElementById('tab1d').classList.toggle('active', mode === '1d');
+      document.getElementById('tabQR').classList.toggle('active', mode === 'qr');
+      document.getElementById('onedSection').style.display = mode === '1d' ? 'block' : 'none';
+      document.getElementById('qrSection').style.display   = mode === 'qr'  ? 'block' : 'none';
+      if (mode === '1d') { if (qrRunning) stopQR(); focusInput(); }
+    };
+
+    // 1D barcode input
+    const barcodeInput = document.getElementById('barcodeInput');
+
+    barcodeInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const code = barcodeInput.value.trim();
+        if (code) { processCode(code); barcodeInput.value = ''; }
+      }
+    });
+
+    // Global ghost capture — catches scanner input if focus drifts
+    let ghostBuf = '', ghostTimer = null;
+    document.addEventListener('keypress', e => {
+      if (scanMode !== '1d' || e.target === barcodeInput) return;
+      clearTimeout(ghostTimer);
+      if (e.key !== 'Enter') { ghostBuf += e.key; }
+      else { if (ghostBuf.length >= 3) processCode(ghostBuf.trim()); ghostBuf = ''; }
+      ghostTimer = setTimeout(() => { ghostBuf = ''; }, 80);
+    });
+
+    document.addEventListener('click', e => {
+      if (scanMode !== '1d') return;
+      if (e.target.closest('button') || e.target.closest('input:not(#barcodeInput)')) return;
+      setTimeout(focusInput, 80);
+    });
+
+    function focusInput() { if (scanMode === '1d') barcodeInput.focus(); }
+
+    // QR camera
+    window.startQR = function() {
+      document.getElementById('qr-placeholder').style.display = 'none';
+      document.getElementById('startQrBtn').style.display = 'none';
+      document.getElementById('stopQrBtn').style.display  = '';
+      html5QrScanner = new Html5Qrcode('qr-reader');
+      html5QrScanner.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 200, height: 200 } },
+        text => {
+          processCode(text.trim());
+          html5QrScanner.pause(true);
+          setTimeout(() => { if (html5QrScanner && qrRunning) html5QrScanner.resume(); }, 1800);
+        },
+        () => {}
+      ).then(() => { qrRunning = true; })
+       .catch(err => {
+         showAlert('Camera error: ' + (err.message || 'Cannot access camera.'), 'danger');
+         stopQR();
+       });
+    };
+
+    window.stopQR = function() {
+      if (html5QrScanner) { html5QrScanner.stop().catch(() => {}); html5QrScanner = null; }
+      qrRunning = false;
+      document.getElementById('startQrBtn').style.display = '';
+      document.getElementById('stopQrBtn').style.display  = 'none';
+      document.getElementById('qr-placeholder').style.display = 'flex';
+    };
+
+    // Core scan processor
+    function processCode(code) {
+      if (!code) return;
+      const item = inventory.find(i =>
+        i.itemCode?.toLowerCase() === code.toLowerCase() ||
+        i.barcode?.toLowerCase()  === code.toLowerCase()
+      );
+      if (!item) {
+        statErrors++;
+        document.getElementById('statErrors').textContent = statErrors;
+        addLog('danger', 'Not Found', code, '—', '—');
+        showToast('danger', 'bi-exclamation-triangle-fill', 'Item Not Found', 'No match for: ' + code);
+        focusInput();
+        return;
+      }
+      renderItem(item, true);
+      focusInput();
+    }
+
+    // Render item panel
+    function renderItem(item, isNew) {
+      currentItem = item;
+      document.getElementById('itemEmpty').style.display = 'none';
+      document.getElementById('itemCard').style.display  = 'block';
+
+      const img   = document.getElementById('itemImage');
+      const noImg = document.getElementById('itemNoImg');
+      if (item.imageUrl) {
+        img.src = item.imageUrl; img.style.display = 'block'; noImg.style.display = 'none';
+      } else {
+        img.style.display = 'none'; noImg.style.display = 'block';
+      }
+
+      document.getElementById('itemCodeDisplay').textContent = item.itemCode;
+      document.getElementById('itemName').textContent        = item.name;
+      document.getElementById('itemCategory').textContent    = item.category  || '—';
+      document.getElementById('itemBrand').textContent       = item.brand     || '—';
+      document.getElementById('itemPrice').textContent       = '₱' + (item.unitPrice || 0).toLocaleString();
+      document.getElementById('itemMinStock').textContent    = item.minStock  || 10;
+      document.getElementById('barcodeSublabel').textContent =
+        (item.barcode && item.barcode !== item.itemCode) ? 'Barcode: ' + item.barcode : '';
+
+      const qty  = item.quantity || 0;
+      const min  = item.minStock || 10;
+      const max  = Math.max(qty, min * 5, 1);
+      const pct  = Math.min(100, Math.round((qty / max) * 100));
+
+      document.getElementById('stockFraction').textContent = qty + ' / min ' + min;
+
+      const bar = document.getElementById('stockBarFill');
+      bar.style.width = pct + '%';
+      bar.className = 'progress-bar ' + (qty === 0 ? 'bg-danger' : qty <= min ? 'bg-warning' : 'bg-success');
+
+      // Same getStockStatus logic as your inventory_system.html
+      const badge = document.getElementById('stockBadge');
+      if (qty === 0)          { badge.textContent = 'Out of Stock';  badge.className = 'stock-status stock-low'; }
+      else if (qty <= min)    { badge.textContent = 'Low Stock';     badge.className = 'stock-status stock-low'; }
+      else if (qty <= min*5)  { badge.textContent = 'Medium Stock';  badge.className = 'stock-status stock-medium'; }
+      else                    { badge.textContent = 'Healthy Stock'; badge.className = 'stock-status stock-high'; }
+
+      const big = document.getElementById('itemQtyBig');
+      big.textContent = qty;
+      big.style.color = qty === 0 ? '#dc3545' : qty <= min ? '#856404' : '#003366';
+
+      document.getElementById('checkinBtn').disabled  = false;
+      document.getElementById('checkoutBtn').disabled = false;
+
+      if (isNew) {
+        statScans.add(item.id);
+        document.getElementById('statScans').textContent = statScans.size;
+      }
+    }
+
+    // Stock actions — same updateDoc pattern as your saveItem()
+    window.doStockAction = async function(dir) {
+      if (!currentItem) return;
+      const qty    = parseInt(document.getElementById('qtyInput').value) || 1;
+      const newQty = dir === 'in' ? currentItem.quantity + qty : currentItem.quantity - qty;
+
+      if (newQty < 0) {
+        showAlert('Cannot remove more stock than available (' + currentItem.quantity + ' units).', 'danger');
+        return;
+      }
+
+      try {
+        await updateDoc(doc(db, 'inventory', currentItem.id), {
+          quantity: newQty, updatedAt: new Date().toISOString()
+        });
+
+        if (dir === 'in') {
+          statIn += qty; document.getElementById('statIn').textContent = statIn;
+          addLog('success', 'Check In', currentItem.name, currentItem.itemCode, '+' + qty);
+          showToast('success', 'bi-check-circle-fill', 'Stock Added',
+            currentItem.name + ' · +' + qty + ' · Now: ' + newQty);
+        } else {
+          statOut += qty; document.getElementById('statOut').textContent = statOut;
+          addLog('warning', 'Check Out', currentItem.name, currentItem.itemCode, '−' + qty);
+          showToast('warning', 'bi-dash-circle-fill', 'Stock Removed',
+            currentItem.name + ' · −' + qty + ' · Now: ' + newQty);
+        }
+        document.getElementById('qtyInput').value = 1;
+        focusInput();
+
+      } catch (err) {
+        showAlert('Error updating stock. Please try again.', 'danger');
+      }
+    };
+
+    window.adjustQty = function(delta) {
+      const input = document.getElementById('qtyInput');
+      input.value = Math.max(1, (parseInt(input.value) || 1) + delta);
+      focusInput();
+    };
+
+    // Log
+    function addLog(type, action, name, code, qty) {
+      const tbody = document.getElementById('sessionLog');
+      document.getElementById('logEmpty')?.remove();
+      const cls = { success:'bg-success', warning:'bg-warning text-dark', danger:'bg-danger' }[type] || 'bg-secondary';
+      const tr = document.createElement('tr');
+      tr.className = 'log-row-new';
+      tr.innerHTML = `
+        <td><span class="badge ${cls}">${action}</span></td>
+        <td>${name}</td>
+        <td><strong style="font-family:'Courier New',monospace; font-size:0.8rem;">${code}</strong></td>
+        <td><strong>${qty}</strong></td>
+        <td class="text-muted">${new Date().toLocaleTimeString()}</td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+
+    window.clearLog = function() {
+      document.getElementById('sessionLog').innerHTML = `
+        <tr id="logEmpty">
+          <td colspan="5" class="text-center py-4">
+            <i class="bi bi-clock-history" style="font-size:2rem; color:#ccc;"></i>
+            <p class="mt-2 text-muted mb-0">No scans yet this session</p>
+          </td>
+        </tr>`;
+    };
+
+    // showAlert — exact same function as inventory_system.html
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alertId = 'alert-' + Date.now();
+      alertContainer.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" id="${alertId}" role="alert">
+          <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>`;
+      setTimeout(() => {
+        const el = document.getElementById(alertId);
+        if (el) bootstrap.Alert.getOrCreateInstance(el).close();
+      }, 5000);
+    }
+
+    // Toast
+    let toastTimer = null;
+    function showToast(type, icon, title, sub) {
+      const toast = document.getElementById('feedbackToast');
+      const tmap  = { success:'', warning:'t-warning', danger:'t-danger' };
+      const imap  = { success:'success', warning:'warning', danger:'danger' };
+      toast.className = 'feedback-toast ' + (tmap[type] || '') + ' show';
+      document.getElementById('toastIcon').className = 'toast-icon ' + (imap[type] || '');
+      document.getElementById('toastIcon').innerHTML = '<i class="bi ' + icon + '"></i>';
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent   = sub || '';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    focusInput();
+  </script>
+
+</body>
+</html>
