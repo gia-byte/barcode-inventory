@@ -6,7 +6,7 @@
   <title>Oriental Photographix - Scan Mode</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR4nO2WsUoDQRCGv0QwYiFYiI1gI1hZWFhYWVn4CL6Aj+Aj+Ag+go+Qh7CwsLKwsrKysLCwEAQLC0EQLETk4IbZy+5lL3eJhfnhYJfdnf/bmZ3dheqqq64WBegBBsAYMAFcAbfAB/AL/ADXwAQwCvQDHW1BfwgYBaaAZ8CX6AmYBgaBtnrQd2rAHwI+Y+gP+ATGgVpT0HfqhH+uEP0nMAt01oO+Uxf8eSX6S+AAWIE1kI0BO8BppegvgY16oO/UDJ9XQD8C9IfQu8AxMBNC/wZsVoX+SfSnFdBvhqDfpvz7T4H1sug/q6DfCqE/A/Yqol9LQb9bBv1OBfSbIfTTknkQp1lgMWL9B7CSQP+hbAIuK6DvikHvJdCbJaMAm4Bn1XwAfWXQW0oE+3FLbKaMbqvvHrFR+z0Dvmfot1LQ91VTk8C9Gn4CuqPohyXTpqTQjxTl9IbegJv0InH0CxL5tfiTO0VbNGnF0Y9K5tuiIu0D31rXHjBUBL0jmXeL6pwDvs2qc7cI+hHJ7MVVpy0n3gTQLRYaAXaBU039TzVbdP2v+gOs6IVwWJWiTgAAAABJRU5ErkJggg==">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR4nO2WsUoDQRCGv0QwYiFYiI1gI1hZWFhYWVn4CL6Aj+Aj+Ag+go+Qh7CwsLKwsrKysLCwEAQLC0EQLETk4IbZy+5lL3eJhfnhYJfdnf/bmZ3dheqqq64WBegBBsAYMAFcAbfAB/AL/ALXwAQwCvQDHW1BfwgYBaaAZ8CX6AmYBgaBtnrQd2rAHwI+Y+gP+ATGgVpT0HfqhH+uEP0nMAt01oO+Uxf8eSX6S+AAWIE1kI0BO8BppegvgY16oO/UDJ9XQD8C9IfQu8AxMBNC/wZsVoX+SfSnFdBvhqDfpvz7T4H1sug/q6DfCqE/A/Yqol9LQb9bBv1OBfSbIfTTknkQp1lgMWL9B7CSQP+hbAIuK6DvikHvJdCbJaMAm4Bn1XwAfWXQW0oE+3FLbKaMbqvvHrFR+z0Dvmfot1LQ91VTk8C9Gn4CuqPohyXTpqTQjxTl9IbegJv0InH0CxL5tfiTO0VbNGnF0Y9K5tuiIu0D31rXHjBUBL0jmXeL6pwDvs2qc7cI+hHJ7MVVpy0n3gTQLRYaAXaBU039TzVbdP2v+gOs6IVwWJWiTgAAAABJRU5ErkJggg==">
   <style>
     /* ─── Copied verbatim from inventory_system.html ─── */
     body {
@@ -170,7 +170,6 @@
 
     /* ─── Scan Mode specific styles ─── */
 
-    /* Mode toggle tabs — uses search-section styling */
     .scan-tabs {
       display: flex;
       border-radius: 8px;
@@ -204,7 +203,6 @@
       color: white;
     }
 
-    /* Barcode input */
     .barcode-wrap { position: relative; }
 
     .barcode-wrap .input-icon {
@@ -244,7 +242,6 @@
       font-size: 0.9rem;
     }
 
-    /* QR reader */
     #qrSection { display: none; }
 
     #qr-reader {
@@ -266,7 +263,6 @@
       color: #adb5bd;
     }
 
-    /* Qty controls */
     .qty-row {
       display: flex;
       align-items: center;
@@ -278,7 +274,6 @@
     }
 
     .qty-label { font-weight: 600; color: #495057; font-size: 0.875rem; white-space: nowrap; }
-
     .qty-controls { display: flex; align-items: center; }
 
     .qty-btn {
@@ -305,7 +300,6 @@
       outline: none;
     }
 
-    /* Action buttons — styled like btn-edit / btn-delete */
     .btn-checkin, .btn-checkout {
       padding: 0.5rem 1rem;
       border-radius: 6px;
@@ -325,12 +319,7 @@
     .btn-checkout:hover:not(:disabled) { background-color: #ffb300; transform: scale(1.02); }
     .btn-checkin:disabled, .btn-checkout:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-    /* Item detail card */
-    .item-empty {
-      text-align: center;
-      padding: 3rem 1rem;
-    }
-
+    .item-empty { text-align: center; padding: 3rem 1rem; }
     .item-empty i { font-size: 3rem; color: #ccc; display: block; margin-bottom: 0.75rem; }
 
     .item-image-box {
@@ -343,7 +332,6 @@
 
     .item-image-box img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* Toast — bottom-right */
     .feedback-toast {
       position: fixed;
       bottom: 1.5rem; right: 1.5rem;
@@ -371,7 +359,6 @@
     .toast-title { font-weight: 700; color: #212529; font-size: 0.9rem; }
     .toast-sub   { font-size: 0.8rem; color: #6c757d; margin-top: 0.1rem; }
 
-    /* Log table row flash */
     .log-row-new td { animation: row-flash 1.2s ease; }
 
     @keyframes row-flash {
@@ -383,11 +370,231 @@
     .log-scroll::-webkit-scrollbar { width: 4px; }
     .log-scroll::-webkit-scrollbar-track { background: #f8f9fa; }
     .log-scroll::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 2px; }
+
+    /* ─── Log History Tab styles ─── */
+    .history-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #e9ecef;
+      background: #f8f9fa;
+    }
+
+    .history-filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .history-filter-group label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6c757d;
+    }
+
+    .history-filter-group select,
+    .history-filter-group input[type="text"] {
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 0.4rem 0.65rem;
+      font-size: 0.875rem;
+      color: #212529;
+      background: white;
+      outline: none;
+      transition: border-color 0.2s;
+      min-width: 160px;
+    }
+
+    .history-filter-group select:focus,
+    .history-filter-group input[type="text"]:focus {
+      border-color: #004080;
+      box-shadow: 0 0 0 0.15rem rgba(0,64,128,0.12);
+    }
+
+    .btn-hist-refresh {
+      padding: 0.42rem 1rem;
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+      background: white;
+      color: #495057;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      align-self: flex-end;
+    }
+
+    .btn-hist-refresh:hover { border-color: #004080; color: #004080; background: #f0f5ff; }
+
+    .history-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 0.6rem 1.25rem;
+      border-bottom: 1px solid #e9ecef;
+      background: white;
+    }
+
+    .hist-stat { font-size: 0.8rem; color: #6c757d; }
+    .hist-stat strong { color: #003366; }
+
+    .history-table-scroll {
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 420px;
+    }
+
+    .history-table-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+    .history-table-scroll::-webkit-scrollbar-track { background: #f8f9fa; }
+    .history-table-scroll::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 3px; }
+
+    .hist-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+
+    .hist-table thead th {
+      background: #f8f9fa;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6c757d;
+      white-space: nowrap;
+      border-bottom: 1px solid #e9ecef;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .hist-table tbody tr {
+      border-bottom: 1px solid #f1f3f5;
+      transition: background 0.12s;
+    }
+
+    .hist-table tbody tr:hover { background: #f8f9ff; }
+
+    .hist-table td {
+      padding: 0.7rem 1rem;
+      vertical-align: middle;
+      color: #495057;
+    }
+
+    .hist-time { white-space: nowrap; font-size: 0.8rem; color: #6c757d; }
+
+    .hist-action-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-checkin   { background: #d4edda; color: #155724; }
+    .badge-checkout  { background: #fff3cd; color: #856404; }
+    .badge-notfound  { background: #f8d7da; color: #721c24; }
+    .badge-scanonly  { background: #cce5ff; color: #004085; }
+
+    .hist-item-name { font-weight: 600; color: #212529; }
+    .hist-item-code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      color: #6c757d;
+      margin-top: 2px;
+    }
+
+    .hist-scanned-code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      background: #f1f3f5;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .hist-stock-change {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+    }
+
+    .hist-loading-row td,
+    .hist-empty-row td {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: #adb5bd;
+    }
+
+    .hist-error-row td {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #dc3545;
+      font-size: 0.875rem;
+    }
+
+    .hist-index-notice {
+      font-size: 0.8rem;
+      color: #856404;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 6px;
+      padding: 0.5rem 0.9rem;
+      margin: 0.75rem 1.25rem;
+      display: none;
+    }
+
+    .hist-index-notice a { color: #533f03; }
+
+    /* ─── Voided row styling ─── */
+    .hist-row-voided td { opacity: 0.45; }
+    .hist-row-voided .hist-item-name,
+    .hist-row-voided .hist-action-badge { text-decoration: line-through; }
+
+    .void-reason-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #f8d7da;
+      color: #721c24;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    /* ─── Row action buttons ─── */
+    .hist-row-actions {
+      display: flex;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+
+    .btn-hist-void, .btn-hist-delete {
+      border: none;
+      border-radius: 5px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-hist-void   { background: #fff3cd; color: #856404; }
+    .btn-hist-void:hover   { background: #ffeeba; }
+    .btn-hist-void.unvoid  { background: #d4edda; color: #155724; }
+    .btn-hist-void.unvoid:hover { background: #c3e6cb; }
+
+    .btn-hist-delete { background: #f8d7da; color: #721c24; }
+    .btn-hist-delete:hover { background: #f5c6cb; }
+
+    /* ─── Void reason modal ─── */
+    #voidModal .modal-header { background: linear-gradient(135deg, #003366, #004080); color: white; }
+    #voidModal .modal-header .btn-close { filter: invert(1); }
   </style>
 </head>
 <body>
 
-  <!-- Header — exact copy from inventory_system.html -->
   <header class="top-header">
     <div>
       <h1>
@@ -408,12 +615,10 @@
     </nav>
   </header>
 
-  <!-- Main Content -->
   <div class="main-content">
 
     <div id="alertContainer"></div>
 
-    <!-- Loading spinner — same as inventory_system -->
     <div class="loading-spinner" id="loadingSpinner">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -421,7 +626,7 @@
       <p class="mt-2">Loading inventory data...</p>
     </div>
 
-    <!-- Stats cards — exact same markup as inventory_system.html -->
+    <!-- Stats cards -->
     <div class="row mb-4">
       <div class="col-md-3 col-6">
         <div class="stats-card success">
@@ -469,19 +674,17 @@
       </div>
     </div>
 
-    <!-- Two-column layout -->
     <div class="row">
 
       <!-- LEFT: Scanner + Log -->
       <div class="col-lg-7">
 
-        <!-- Scanner — uses search-section card style -->
+        <!-- Scanner card -->
         <div class="search-section">
           <h6 class="mb-3 fw-bold" style="color:#003366;">
             <i class="bi bi-upc-scan me-1"></i> Scanner Input
           </h6>
 
-          <!-- Mode tabs -->
           <div class="scan-tabs">
             <button class="scan-tab active" id="tab1d" onclick="setMode('1d')">
               <i class="bi bi-upc"></i> 1D Barcode (USB Scanner)
@@ -491,7 +694,6 @@
             </button>
           </div>
 
-          <!-- 1D input -->
           <div id="onedSection">
             <div class="barcode-wrap">
               <i class="bi bi-upc-scan input-icon"></i>
@@ -507,7 +709,6 @@
             </p>
           </div>
 
-          <!-- QR input -->
           <div id="qrSection">
             <div id="qr-reader">
               <div id="qr-placeholder">
@@ -530,7 +731,6 @@
             </p>
           </div>
 
-          <!-- Qty row -->
           <div class="qty-row">
             <span class="qty-label"><i class="bi bi-123 me-1"></i> Quantity:</span>
             <div class="qty-controls">
@@ -541,7 +741,6 @@
             <small class="text-muted">units per action</small>
           </div>
 
-          <!-- Action buttons -->
           <div class="d-flex gap-2">
             <button class="btn-checkin" id="checkinBtn"
                     onclick="doStockAction('in')" disabled>
@@ -554,40 +753,133 @@
           </div>
         </div>
 
-        <!-- Session Log — uses inventory-table card style -->
+        <!-- Session Log + History — tabbed card -->
         <div class="inventory-table">
-          <div style="padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e9ecef;">
-            <span class="fw-bold" style="color:#003366; font-size:0.95rem;">
-              <i class="bi bi-clock-history me-1"></i> Session Log
-            </span>
-            <button class="btn btn-sm btn-outline-secondary" onclick="clearLog()">
+
+          <!-- Card header with tab switcher -->
+          <div style="padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e9ecef; flex-wrap:wrap; gap:0.5rem;">
+            <div class="scan-tabs" style="margin-bottom:0; border:none; border-radius:6px; overflow:hidden;">
+              <button class="scan-tab active" id="logTab1" onclick="switchLogTab('session')"
+                style="padding:0.4rem 0.9rem; font-size:0.82rem;">
+                <i class="bi bi-clock-history"></i> Session Log
+              </button>
+              <button class="scan-tab" id="logTab2" onclick="switchLogTab('history')"
+                style="padding:0.4rem 0.9rem; font-size:0.82rem; border-left:1px solid #dee2e6;">
+                <i class="bi bi-journal-text"></i> Log History
+              </button>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary" id="clearLogBtn" onclick="clearLog()">
               <i class="bi bi-trash"></i> Clear
             </button>
           </div>
-          <div class="log-scroll">
-            <table class="table table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>Action</th>
-                  <th>Item</th>
-                  <th>Code</th>
-                  <th>Qty</th>
-                  <th>Time</th>
-                </tr>
-              </thead>
-              <tbody id="sessionLog">
-                <tr id="logEmpty">
-                  <td colspan="5" class="text-center py-4">
-                    <i class="bi bi-clock-history" style="font-size:2rem; color:#ccc;"></i>
-                    <p class="mt-2 text-muted mb-0">No scans yet this session</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-      </div>
+          <!-- SESSION LOG panel -->
+          <div id="sessionLogPanel">
+            <div class="log-scroll">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Item</th>
+                    <th>Code</th>
+                    <th>Qty</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody id="sessionLog">
+                  <tr id="logEmpty">
+                    <td colspan="5" class="text-center py-4">
+                      <i class="bi bi-clock-history" style="font-size:2rem; color:#ccc;"></i>
+                      <p class="mt-2 text-muted mb-0">No scans yet this session</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- LOG HISTORY panel -->
+          <div id="historyLogPanel" style="display:none;">
+
+            <div class="history-filters">
+              <div class="history-filter-group">
+                <label>Time Range</label>
+                <select id="historyRange" onchange="loadHistory()">
+                  <option value="session">This Session</option>
+                  <option value="24h" selected>Last 24 Hours</option>
+                  <option value="7d">Last 7 Days</option>
+                  <option value="30d">Last 30 Days</option>
+                  <option value="all">All Time</option>
+                </select>
+              </div>
+              <div class="history-filter-group">
+                <label>Action Type</label>
+                <select id="historyAction" onchange="loadHistory()">
+                  <option value="all">All Actions</option>
+                  <option value="CHECK_IN">Check In Only</option>
+                  <option value="CHECK_OUT">Check Out Only</option>
+                  <option value="NOT_FOUND">Not Found Only</option>
+                </select>
+              </div>
+              <div class="history-filter-group">
+                <label>Search Item</label>
+                <input type="text" id="historySearch"
+                       placeholder="name, code, barcode..."
+                       oninput="filterHistoryLocally()">
+              </div>
+              <button class="btn-hist-refresh" onclick="loadHistory()">
+                <i class="bi bi-arrow-clockwise"></i> Refresh
+              </button>
+            </div>
+
+            <div class="history-summary-bar">
+              <span class="hist-stat"><strong id="histTotal">—</strong> entries</span>
+              <span class="hist-stat"><strong id="histCheckins" class="text-success">—</strong> check-ins</span>
+              <span class="hist-stat"><strong id="histCheckouts" class="text-warning">—</strong> check-outs</span>
+              <span class="hist-stat"><strong id="histNotFound" class="text-danger">—</strong> not found</span>
+              <label class="hist-stat d-flex align-items-center gap-1" style="cursor:pointer; margin-left:auto;">
+                <input type="checkbox" id="showVoided" onchange="filterHistoryLocally()" style="cursor:pointer;">
+                Show voided
+              </label>
+            </div>
+
+            <!-- Shown when Firestore needs a composite index to be created -->
+            <div class="hist-index-notice" id="histIndexNotice">
+              <i class="bi bi-info-circle-fill me-1"></i>
+              Firestore needs a composite index for this filter.
+              <a id="histIndexLink" href="#" target="_blank">Click here to create it</a>
+              — takes ~1 minute, only needed once per filter combination.
+            </div>
+
+            <div class="history-table-scroll">
+              <table class="hist-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                    <th>Item</th>
+                    <th>Scanned Code</th>
+                    <th>Qty</th>
+                    <th>Stock Change</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                  <tr class="hist-loading-row">
+                    <td colspan="6">
+                      <i class="bi bi-journal-text" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+                      Switch to this tab to load log history
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div><!-- end historyLogPanel -->
+
+        </div><!-- end inventory-table -->
+
+      </div><!-- end col-lg-7 -->
 
       <!-- RIGHT: Item Details -->
       <div class="col-lg-5">
@@ -599,13 +891,11 @@
           </div>
           <div style="padding:1.5rem;">
 
-            <!-- Empty state -->
             <div class="item-empty" id="itemEmpty">
               <i class="bi bi-upc-scan"></i>
               <p class="text-muted mb-0">Scan a barcode or QR code<br>to load item details here</p>
             </div>
 
-            <!-- Item card -->
             <div id="itemCard" style="display:none;">
 
               <div class="item-image-box">
@@ -613,7 +903,6 @@
                 <i class="bi bi-image text-muted" id="itemNoImg" style="font-size:2.5rem;"></i>
               </div>
 
-              <!-- Item code — same badge style as table -->
               <div class="mb-1">
                 <strong id="itemCodeDisplay"
                   style="font-family:'Courier New',monospace; font-size:0.85rem; background:#e9ecef; padding:0.2rem 0.5rem; border-radius:4px;">
@@ -624,7 +913,6 @@
 
               <div class="fw-bold mb-3" style="font-size:1.1rem; color:#003366;" id="itemName">—</div>
 
-              <!-- Details grid — same as modal fields layout -->
               <div class="row g-2 mb-3">
                 <div class="col-6">
                   <div class="p-2 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
@@ -652,7 +940,6 @@
                 </div>
               </div>
 
-              <!-- Stock progress bar -->
               <div class="mb-2">
                 <div class="d-flex justify-content-between mb-1" style="font-size:0.8rem; color:#6c757d;">
                   <span>Stock Level</span>
@@ -664,12 +951,10 @@
                 </div>
               </div>
 
-              <!-- Status badge — same .stock-status as inventory table -->
               <div class="d-flex align-items-center justify-content-between mb-3">
                 <span class="stock-status" id="stockBadge">—</span>
               </div>
 
-              <!-- Big quantity display -->
               <div class="text-center p-3 rounded" style="background:#f8f9fa; border:1px solid #e9ecef;">
                 <div id="itemQtyBig"
                      style="font-size:2.5rem; font-weight:700; font-family:'Courier New',monospace; color:#003366; line-height:1;">
@@ -686,12 +971,74 @@
     </div>
   </div><!-- end main-content -->
 
-  <!-- Toast notification -->
   <div class="feedback-toast" id="feedbackToast">
     <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-circle-fill"></i></div>
     <div>
       <div class="toast-title" id="toastTitle">Updated</div>
       <div class="toast-sub"   id="toastSub"></div>
+    </div>
+  </div>
+
+  <!-- Void reason modal -->
+  <div class="modal fade" id="voidModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title mb-0"><i class="bi bi-slash-circle me-1"></i> Void Log Entry</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted mb-2" style="font-size:0.85rem;">
+            This entry will be struck through and excluded from counts but will remain in the database.
+          </p>
+          <label class="form-label fw-semibold" style="font-size:0.85rem;">Reason <span class="text-danger">*</span></label>
+          <select class="form-select form-select-sm" id="voidReasonSelect" onchange="toggleCustomReason()">
+            <option value="">— Select a reason —</option>
+            <option value="Accidental scan">Accidental scan</option>
+            <option value="Wrong item scanned">Wrong item scanned</option>
+            <option value="Data entry error">Data entry error</option>
+            <option value="Test scan">Test scan</option>
+            <option value="custom">Other (type below)</option>
+          </select>
+          <input type="text" class="form-control form-control-sm mt-2" id="voidReasonCustom"
+                 placeholder="Enter reason..." style="display:none;">
+          <div class="text-danger mt-1" style="font-size:0.78rem; display:none;" id="voidReasonError">
+            Please select or enter a reason.
+          </div>
+        </div>
+        <div class="modal-footer" style="gap:0.5rem;">
+          <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-sm btn-warning" onclick="confirmVoid()">
+            <i class="bi bi-slash-circle me-1"></i> Void Entry
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hard delete confirmation modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg,#721c24,#a71d2a); color:white;">
+          <h6 class="modal-title mb-0"><i class="bi bi-trash-fill me-1"></i> Permanently Delete</h6>
+          <button type="button" class="btn-close" style="filter:invert(1);" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2" style="font-size:0.875rem;">
+            <strong>This cannot be undone.</strong> The entry will be permanently removed from Firestore.
+          </p>
+          <p class="text-muted mb-0" style="font-size:0.8rem;">
+            For audit purposes, consider voiding instead.
+          </p>
+        </div>
+        <div class="modal-footer" style="gap:0.5rem;">
+          <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-sm btn-danger" onclick="confirmDelete()">
+            <i class="bi bi-trash-fill me-1"></i> Delete Permanently
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -701,13 +1048,13 @@
   <script type="module">
     import { initializeApp }
       from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, query, orderBy,
-             onSnapshot, doc, updateDoc }
+    import { getFirestore, collection, query, orderBy, where, limit,
+             onSnapshot, doc, updateDoc, addDoc, getDocs, deleteDoc,
+             serverTimestamp, Timestamp }
       from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
     import { getAuth, onAuthStateChanged }
       from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-    // Firebase config — same as your other pages
     const firebaseConfig = {
       apiKey:            "AIzaSyCTRbqsXKfJ5vADuT3N_Cn_Gm7lznanFfA",
       authDomain:        "oriental-photographix.firebaseapp.com",
@@ -721,12 +1068,17 @@
     const db   = getFirestore(app);
     const auth = getAuth(app);
 
-    // Auth guard — same pattern as your pages
+    // ─── Session ID ───────────────────────────────────────────────────────
+    // Generated once per page load. Lets "This Session" filter in Log History
+    // isolate only the logs written during the current browser session.
+    // Refreshing the page creates a new SESSION_ID automatically.
+    const SESSION_ID = 'sess_' + Date.now();
+
     onAuthStateChanged(auth, user => {
       if (!user) window.location.replace('index.html');
     });
 
-    // State
+    // ─── App State ────────────────────────────────────────────────────────
     let inventory      = [];
     let currentItem    = null;
     let scanMode       = '1d';
@@ -737,7 +1089,10 @@
     let statScans      = new Set();
     let statErrors     = 0;
 
-    // Realtime listener — same pattern as loadInventory() in your pages
+    // Holds the last Firestore result set.
+    // The local search filter reuses this array so it doesn't trigger extra reads.
+    let allHistoryRows = [];
+
     const loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.classList.add('active');
 
@@ -759,7 +1114,6 @@
       }
     );
 
-    // updateConnectionStatus — exact copy from inventory_system.html
     function updateConnectionStatus(connected) {
       const el = document.getElementById('connectionStatus');
       if (connected) {
@@ -771,7 +1125,7 @@
       }
     }
 
-    // Mode switching
+    // ─── Scanner mode toggle ──────────────────────────────────────────────
     window.setMode = function(mode) {
       scanMode = mode;
       document.getElementById('tab1d').classList.toggle('active', mode === '1d');
@@ -781,7 +1135,24 @@
       if (mode === '1d') { if (qrRunning) stopQR(); focusInput(); }
     };
 
-    // 1D barcode input
+    // ─── Log panel tab switcher ───────────────────────────────────────────
+    // "Session Log" shows the in-memory log for the current page visit.
+    // "Log History" shows the persistent Firestore scanLogs collection.
+    window.switchLogTab = function(tab) {
+      const isSession = tab === 'session';
+      document.getElementById('logTab1').classList.toggle('active',  isSession);
+      document.getElementById('logTab2').classList.toggle('active', !isSession);
+      document.getElementById('sessionLogPanel').style.display = isSession ? 'block' : 'none';
+      document.getElementById('historyLogPanel').style.display = isSession ? 'none'  : 'block';
+      document.getElementById('clearLogBtn').style.display     = isSession ? ''      : 'none';
+
+      // Auto-load on first open so the user doesn't have to click Refresh
+      if (!isSession && allHistoryRows.length === 0) {
+        loadHistory();
+      }
+    };
+
+    // ─── 1D Barcode input ─────────────────────────────────────────────────
     const barcodeInput = document.getElementById('barcodeInput');
 
     barcodeInput.addEventListener('keydown', e => {
@@ -792,8 +1163,9 @@
       }
     });
 
-    // Global ghost capture — catches scanner input if focus drifts
+    // Global ghost capture — catches scanner input even if focus drifts
     let ghostBuf = '', ghostTimer = null;
+
     document.addEventListener('keypress', e => {
       if (scanMode !== '1d' || e.target === barcodeInput) return;
       clearTimeout(ghostTimer);
@@ -802,15 +1174,42 @@
       ghostTimer = setTimeout(() => { ghostBuf = ''; }, 80);
     });
 
+    // Only reclaim focus when the user clicks on a truly inert area
+    // (not a button, link, input, select, textarea, or anything inside the log/history panels)
+    const FOCUS_IGNORE_SELECTOR =
+      'button, a, input, select, textarea, label, ' +
+      '[role="button"], [tabindex], ' +
+      '#historyLogPanel *, #sessionLogPanel *, .scan-tabs *';
+
     document.addEventListener('click', e => {
       if (scanMode !== '1d') return;
-      if (e.target.closest('button') || e.target.closest('input:not(#barcodeInput)')) return;
-      setTimeout(focusInput, 80);
+      if (e.target.closest(FOCUS_IGNORE_SELECTOR)) return;
+      // Small delay so any legitimate click action completes first
+      setTimeout(focusInput, 120);
     });
 
-    function focusInput() { if (scanMode === '1d') barcodeInput.focus(); }
+    // After a button click, wait for it to finish then politely return focus —
+    // but only if nothing else stole focus in the meantime
+    document.addEventListener('click', e => {
+      if (scanMode !== '1d') return;
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      // Don't recapture if the button opened a dropdown, modal, or tab switch
+      const ignoreButtons = ['logTab1', 'logTab2', 'tab1d', 'tabQR', 'startQrBtn', 'stopQrBtn'];
+      if (ignoreButtons.includes(btn.id)) return;
+      setTimeout(() => {
+        // Only refocus if no other element grabbed focus
+        if (!document.activeElement || document.activeElement === document.body) {
+          focusInput();
+        }
+      }, 150);
+    });
 
-    // QR camera
+    function focusInput() {
+      if (scanMode === '1d') barcodeInput.focus();
+    }
+
+    // ─── QR camera ────────────────────────────────────────────────────────
     window.startQR = function() {
       document.getElementById('qr-placeholder').style.display = 'none';
       document.getElementById('startQrBtn').style.display = 'none';
@@ -840,7 +1239,7 @@
       document.getElementById('qr-placeholder').style.display = 'flex';
     };
 
-    // Core scan processor
+    // ─── Core scan processor ──────────────────────────────────────────────
     function processCode(code) {
       if (!code) return;
       const item = inventory.find(i =>
@@ -852,14 +1251,16 @@
         document.getElementById('statErrors').textContent = statErrors;
         addLog('danger', 'Not Found', code, '—', '—');
         showToast('danger', 'bi-exclamation-triangle-fill', 'Item Not Found', 'No match for: ' + code);
+        writeScanLog('NOT_FOUND', null, 0, null, null, code);
         focusInput();
         return;
       }
       renderItem(item, true);
+      writeScanLog('SCAN_ONLY', item, 0, item.quantity, item.quantity, code);
       focusInput();
     }
 
-    // Render item panel
+    // ─── Item detail panel renderer ───────────────────────────────────────
     function renderItem(item, isNew) {
       currentItem = item;
       document.getElementById('itemEmpty').style.display = 'none';
@@ -893,7 +1294,6 @@
       bar.style.width = pct + '%';
       bar.className = 'progress-bar ' + (qty === 0 ? 'bg-danger' : qty <= min ? 'bg-warning' : 'bg-success');
 
-      // Same getStockStatus logic as your inventory_system.html
       const badge = document.getElementById('stockBadge');
       if (qty === 0)          { badge.textContent = 'Out of Stock';  badge.className = 'stock-status stock-low'; }
       else if (qty <= min)    { badge.textContent = 'Low Stock';     badge.className = 'stock-status stock-low'; }
@@ -913,14 +1313,15 @@
       }
     }
 
-    // Stock actions — same updateDoc pattern as your saveItem()
+    // ─── Stock actions ────────────────────────────────────────────────────
     window.doStockAction = async function(dir) {
       if (!currentItem) return;
-      const qty    = parseInt(document.getElementById('qtyInput').value) || 1;
-      const newQty = dir === 'in' ? currentItem.quantity + qty : currentItem.quantity - qty;
+      const qty     = parseInt(document.getElementById('qtyInput').value) || 1;
+      const prevQty = currentItem.quantity || 0;
+      const newQty  = dir === 'in' ? prevQty + qty : prevQty - qty;
 
       if (newQty < 0) {
-        showAlert('Cannot remove more stock than available (' + currentItem.quantity + ' units).', 'danger');
+        showAlert('Cannot remove more stock than available (' + prevQty + ' units).', 'danger');
         return;
       }
 
@@ -928,6 +1329,12 @@
         await updateDoc(doc(db, 'inventory', currentItem.id), {
           quantity: newQty, updatedAt: new Date().toISOString()
         });
+
+        const action = dir === 'in' ? 'CHECK_IN' : 'CHECK_OUT';
+
+        // Write to Firestore scanLogs — persists across refreshes
+        await writeScanLog(action, currentItem, qty, prevQty, newQty,
+          currentItem.barcode || currentItem.itemCode);
 
         if (dir === 'in') {
           statIn += qty; document.getElementById('statIn').textContent = statIn;
@@ -954,7 +1361,9 @@
       focusInput();
     };
 
-    // Log
+    // ─── In-memory Session Log ────────────────────────────────────────────
+    // This log lives only in the DOM for the current page visit.
+    // It is complemented by the Firestore-backed Log History tab below.
     function addLog(type, action, name, code, qty) {
       const tbody = document.getElementById('sessionLog');
       document.getElementById('logEmpty')?.remove();
@@ -981,7 +1390,317 @@
         </tr>`;
     };
 
-    // showAlert — exact same function as inventory_system.html
+    // ─── FIRESTORE LOG WRITER ─────────────────────────────────────────────
+    // Writes one document to the top-level `scanLogs` Firestore collection.
+    // Each document stores:
+    //   action        — CHECK_IN | CHECK_OUT | SCAN_ONLY | NOT_FOUND
+    //   itemCode      — inventory item code (null if not found)
+    //   itemName      — display name (null if not found)
+    //   quantity      — units moved (0 for scan-only / not-found)
+    //   previousStock — stock before action
+    //   newStock      — stock after action
+    //   scannedCode   — the raw barcode/QR string that was scanned
+    //   sessionId     — ties this log to the current page session
+    //   timestamp     — Firestore server timestamp (accurate even if device clock is wrong)
+    async function writeScanLog(action, item, quantity, previousStock, newStock, scannedCode) {
+      try {
+        await addDoc(collection(db, 'scanLogs'), {
+          action,
+          itemCode:      item?.itemCode  ?? null,
+          itemName:      item?.name      ?? null,
+          quantity:      quantity        ?? 0,
+          previousStock: previousStock   ?? null,
+          newStock:      newStock        ?? null,
+          scannedCode:   scannedCode     ?? null,
+          sessionId:     SESSION_ID,
+          timestamp:     serverTimestamp()
+        });
+      } catch (err) {
+        // Non-fatal — log failure must never interrupt the operator's workflow
+        console.warn('scanLog write failed:', err);
+      }
+    }
+
+    // ─── LOAD HISTORY FROM FIRESTORE ─────────────────────────────────────
+    // Builds a Firestore query from the current filter selections,
+    // fetches up to 500 results, and passes them to renderHistoryTable().
+    //
+    // IMPORTANT — Composite indexes:
+    // Combining where() on one field with orderBy() on another requires a
+    // composite index in Firestore. If one is missing, Firestore throws an
+    // error whose message contains a direct link to create it.
+    // This function catches that error, extracts the URL, and shows it in
+    // the yellow notice bar above the table so the user can create it in one click.
+    window.loadHistory = async function() {
+      const range  = document.getElementById('historyRange').value;
+      const action = document.getElementById('historyAction').value;
+      const tbody  = document.getElementById('historyTableBody');
+
+      document.getElementById('histIndexNotice').style.display = 'none';
+
+      tbody.innerHTML = `<tr class="hist-loading-row">
+        <td colspan="6">
+          <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+          Loading...
+        </td>
+      </tr>`;
+
+      try {
+        let startDate = null;
+        const now = new Date();
+        if      (range === '24h') startDate = new Date(now - 24 * 60 * 60 * 1000);
+        else if (range === '7d' ) startDate = new Date(now - 7  * 24 * 60 * 60 * 1000);
+        else if (range === '30d') startDate = new Date(now - 30 * 24 * 60 * 60 * 1000);
+
+        const constraints = [orderBy('timestamp', 'desc'), limit(500)];
+
+        if (range === 'session') {
+          constraints.unshift(where('sessionId', '==', SESSION_ID));
+        } else if (startDate) {
+          constraints.unshift(where('timestamp', '>=', Timestamp.fromDate(startDate)));
+        }
+
+        if (action !== 'all') {
+          constraints.unshift(where('action', '==', action));
+        }
+
+        const snapshot = await getDocs(query(collection(db, 'scanLogs'), ...constraints));
+
+        allHistoryRows = [];
+        snapshot.forEach(d => allHistoryRows.push({ id: d.id, ...d.data() }));
+
+        renderHistoryTable(allHistoryRows);
+
+      } catch (err) {
+        console.error('History load error:', err);
+
+        // Firestore embeds a console URL in the error when an index is needed
+        const indexUrl = err.message?.match(/https:\/\/console\.firebase\.google\.com\S+/)?.[0];
+        if (indexUrl) {
+          document.getElementById('histIndexLink').href = indexUrl;
+          document.getElementById('histIndexNotice').style.display = 'block';
+        }
+
+        tbody.innerHTML = `<tr class="hist-error-row">
+          <td colspan="6">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+            ${indexUrl
+              ? 'A Firestore composite index is needed. See the notice above.'
+              : 'Failed to load: ' + err.message}
+          </td>
+        </tr>`;
+      }
+    };
+
+    // ─── RENDER HISTORY TABLE ─────────────────────────────────────────────
+    function renderHistoryTable(rows) {
+      const tbody        = document.getElementById('historyTableBody');
+      const showVoided   = document.getElementById('showVoided')?.checked ?? false;
+      const visibleRows  = showVoided ? rows : rows.filter(r => !r.voided);
+
+      updateHistorySummary(rows);
+
+      if (visibleRows.length === 0) {
+        tbody.innerHTML = `<tr class="hist-empty-row">
+          <td colspan="7">
+            <i class="bi bi-journal-x" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+            No log entries found for this filter.
+          </td>
+        </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = visibleRows.map(entry => {
+        const ts      = entry.timestamp?.toDate?.() ?? new Date();
+        const timeStr = ts.toLocaleString('en-PH', {
+          month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+
+        const badgeMap = {
+          CHECK_IN:  { cls: 'badge-checkin',  icon: 'bi-plus-circle-fill',           label: 'Check In'  },
+          CHECK_OUT: { cls: 'badge-checkout', icon: 'bi-dash-circle-fill',           label: 'Check Out' },
+          NOT_FOUND: { cls: 'badge-notfound', icon: 'bi-exclamation-triangle-fill',  label: 'Not Found' },
+          SCAN_ONLY: { cls: 'badge-scanonly', icon: 'bi-upc-scan',                   label: 'Scan Only' },
+        };
+        const b = badgeMap[entry.action] ?? { cls: 'badge-scanonly', icon: 'bi-question', label: entry.action };
+
+        let stockChangeHtml = '<span style="color:#adb5bd;">—</span>';
+        if (entry.previousStock != null && entry.newStock != null && entry.action !== 'SCAN_ONLY') {
+          const diff  = entry.newStock - entry.previousStock;
+          const color = diff > 0 ? '#28a745' : diff < 0 ? '#dc3545' : '#6c757d';
+          const arrow = diff > 0 ? '▲' : diff < 0 ? '▼' : '=';
+          stockChangeHtml = `<span class="hist-stock-change" style="color:${color};">
+            ${entry.previousStock} ${arrow} ${entry.newStock}
+          </span>`;
+        }
+
+        const qtyHtml = entry.quantity > 0
+          ? `<strong>×${entry.quantity}</strong>`
+          : '<span style="color:#adb5bd;">—</span>';
+
+        // Void status
+        const isVoided = !!entry.voided;
+        const voidBtn  = isVoided
+          ? `<button class="btn-hist-void unvoid" onclick="promptUnvoid('${entry.id}')">
+               <i class="bi bi-arrow-counterclockwise"></i> Unvoid
+             </button>`
+          : `<button class="btn-hist-void" onclick="promptVoid('${entry.id}')">
+               <i class="bi bi-slash-circle"></i> Void
+             </button>`;
+
+        const voidReasonHtml = isVoided && entry.voidReason
+          ? `<div class="void-reason-badge"><i class="bi bi-slash-circle me-1"></i>${entry.voidReason}</div>`
+          : '';
+
+        return `
+          <tr class="${isVoided ? 'hist-row-voided' : ''}">
+            <td class="hist-time">${timeStr}</td>
+            <td>
+              <span class="hist-action-badge ${b.cls}">
+                <i class="bi ${b.icon}"></i> ${b.label}
+              </span>
+            </td>
+            <td>
+              <div class="hist-item-name">${entry.itemName ?? '<span style="color:#adb5bd;">—</span>'}</div>
+              ${entry.itemCode ? `<div class="hist-item-code">${entry.itemCode}</div>` : ''}
+              ${voidReasonHtml}
+            </td>
+            <td>
+              ${entry.scannedCode
+                ? `<span class="hist-scanned-code">${entry.scannedCode}</span>`
+                : '<span style="color:#adb5bd;">—</span>'}
+            </td>
+            <td style="text-align:center;">${qtyHtml}</td>
+            <td>${stockChangeHtml}</td>
+            <td>
+              <div class="hist-row-actions">
+                ${voidBtn}
+                <button class="btn-hist-delete" onclick="promptDelete('${entry.id}')">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+
+    // ─── VOID / UNVOID ────────────────────────────────────────────────────
+    // Soft-delete: sets voided=true + voidReason on the Firestore document.
+    // The entry stays in the database and is visible when "Show voided" is checked.
+    let pendingVoidId = null;
+
+    window.promptVoid = function(id) {
+      pendingVoidId = id;
+      document.getElementById('voidReasonSelect').value = '';
+      document.getElementById('voidReasonCustom').style.display = 'none';
+      document.getElementById('voidReasonCustom').value = '';
+      document.getElementById('voidReasonError').style.display = 'none';
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('voidModal')).show();
+    };
+
+    window.toggleCustomReason = function() {
+      const sel = document.getElementById('voidReasonSelect').value;
+      document.getElementById('voidReasonCustom').style.display = sel === 'custom' ? 'block' : 'none';
+    };
+
+    window.confirmVoid = async function() {
+      const sel    = document.getElementById('voidReasonSelect').value;
+      const custom = document.getElementById('voidReasonCustom').value.trim();
+      const reason = sel === 'custom' ? custom : sel;
+
+      if (!reason) {
+        document.getElementById('voidReasonError').style.display = 'block';
+        return;
+      }
+      document.getElementById('voidReasonError').style.display = 'none';
+
+      try {
+        await updateDoc(doc(db, 'scanLogs', pendingVoidId), {
+          voided: true,
+          voidReason: reason,
+          voidedAt: serverTimestamp()
+        });
+
+        // Update local cache so re-render is instant without a Firestore re-fetch
+        const entry = allHistoryRows.find(r => r.id === pendingVoidId);
+        if (entry) { entry.voided = true; entry.voidReason = reason; }
+
+        bootstrap.Modal.getInstance(document.getElementById('voidModal')).hide();
+        filterHistoryLocally();
+        showToast('warning', 'bi-slash-circle', 'Entry Voided', reason);
+      } catch (err) {
+        showAlert('Could not void entry: ' + err.message, 'danger');
+      }
+    };
+
+    window.promptUnvoid = async function(id) {
+      // Unvoid is immediate — no modal needed
+      try {
+        await updateDoc(doc(db, 'scanLogs', id), {
+          voided: false,
+          voidReason: null,
+          voidedAt: null
+        });
+        const entry = allHistoryRows.find(r => r.id === id);
+        if (entry) { entry.voided = false; entry.voidReason = null; }
+        filterHistoryLocally();
+        showToast('success', 'bi-arrow-counterclockwise', 'Entry Restored', 'Void removed.');
+      } catch (err) {
+        showAlert('Could not unvoid entry: ' + err.message, 'danger');
+      }
+    };
+
+    // ─── HARD DELETE ──────────────────────────────────────────────────────
+    // Permanently removes the document from Firestore.
+    // Admin-only intent — no recovery possible.
+    let pendingDeleteId = null;
+
+    window.promptDelete = function(id) {
+      pendingDeleteId = id;
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteModal')).show();
+    };
+
+    window.confirmDelete = async function() {
+      try {
+        await deleteDoc(doc(db, 'scanLogs', pendingDeleteId));
+
+        // Remove from local cache
+        allHistoryRows = allHistoryRows.filter(r => r.id !== pendingDeleteId);
+
+        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+        filterHistoryLocally();
+        showToast('danger', 'bi-trash-fill', 'Entry Deleted', 'Permanently removed.');
+      } catch (err) {
+        showAlert('Could not delete entry: ' + err.message, 'danger');
+      }
+    };
+
+    // ─── LOCAL SEARCH FILTER ──────────────────────────────────────────────
+    // Filters the already-fetched allHistoryRows array in memory.
+    // No Firestore reads are triggered per keystroke — only on dropdown changes.
+    window.filterHistoryLocally = function() {
+      const term = document.getElementById('historySearch').value.toLowerCase().trim();
+      if (!term) { renderHistoryTable(allHistoryRows); return; }
+      const filtered = allHistoryRows.filter(e =>
+        (e.itemName    ?? '').toLowerCase().includes(term) ||
+        (e.itemCode    ?? '').toLowerCase().includes(term) ||
+        (e.scannedCode ?? '').toLowerCase().includes(term)
+      );
+      renderHistoryTable(filtered);
+    };
+
+    // ─── HISTORY SUMMARY BAR ─────────────────────────────────────────────
+    // Counts exclude voided entries so stats reflect real stock movements only
+    function updateHistorySummary(rows) {
+      const active = rows.filter(r => !r.voided);
+      document.getElementById('histTotal').textContent     = active.length;
+      document.getElementById('histCheckins').textContent  = active.filter(r => r.action === 'CHECK_IN').length;
+      document.getElementById('histCheckouts').textContent = active.filter(r => r.action === 'CHECK_OUT').length;
+      document.getElementById('histNotFound').textContent  = active.filter(r => r.action === 'NOT_FOUND').length;
+    }
+
+    // ─── Utilities (unchanged from original) ─────────────────────────────
     function showAlert(message, type) {
       const alertContainer = document.getElementById('alertContainer');
       const alertId = 'alert-' + Date.now();
@@ -997,7 +1716,6 @@
       }, 5000);
     }
 
-    // Toast
     let toastTimer = null;
     function showToast(type, icon, title, sub) {
       const toast = document.getElementById('feedbackToast');
