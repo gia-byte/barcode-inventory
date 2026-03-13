@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oriental Photographix - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR4nO2WsUoDQRCGv0QwYiFYiI1gI1hZWFhYWVn4CL6Aj+Aj+Ag+go+Qh7CwsLKwsrKysLCwEAQLC0EQLETk4IbZy+5lL3eJhfnhYJfdnf/bmZ3dheqqq64WBegBBsAYMAFcAbfAB/AL/ADXwAQwCvQDHW1BfwgYBaaAZ8CX6AmYBgaBtnrQd2rAHwI+Y+gP+ATGgVpT0HfqhH+uEP0nMAt01oO+Uxf8eSX6S+AAWIE1kI0BO8BppegvgY16oO/UDJ9XQD8C9IfQu8AxMBNC/wZsVoX+SfSnFdBvhqDfpvz7T4H1sug/q6DfCqE/A/Yqol9LQb9bBv1OBfSbIfTTknkQp1lgMWL9B7CSQP+hbAIuK6DvikHvJdCbJaMAm4Bn1XwAfWXQW0oE+3FLbKaMbqvvHrFR+z0Dvmfot1LQ91VTk8C9Gn4CuqPohyXTpqTQjxTl9IbegJv0InH0CxL5tfiTO0VbNGnF0Y9K5tuiIu0D31rXHjBUBL0jmXeL6pwDvs2qc7cI+hHJ7MVVpy0n3gTQLRYaAXaBU039TzVbdP2v+gOs6IVwWJWiTgAAAABJRU5ErkJggg==">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #4b67a2 100%);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 1rem;
+    }
+
+    .login-box {
+      background-color: rgba(255, 255, 255, 0.98);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-icon {
+      font-size: 4rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .login-box h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .input-group-text {
+      border-radius: 10px 0 0 10px;
+      border: 2px solid #e0e0e0;
+      border-right: none;
+      background: white;
+      color: #667eea;
+    }
+
+    .input-group .form-control {
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .input-group .form-control:focus {
+      border-left: 2px solid #667eea;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 10px;
+      padding: 0.875rem;
+      font-weight: 600;
+      color: white;
+      width: 100%;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+
+    .toggle-password {
+      cursor: pointer;
+      color: #667eea;
+      font-size: 1.25rem;
+    }
+
+    .alert {
+      border-radius: 10px;
+      border: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #999;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 576px) {
+      .login-box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .logo-icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <div class="logo-container">
+        <img src="logo.png" style="height: 80px; margin-right: 10px; vertical-align: middle;"></i>
+      </div>
+      
+      <h2>Oriental Photographix</h2>
+      <p>Inventory Management System</p>
+      
+      <div id="alertContainer"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="mb-3">
+          <label class="form-label" for="email">
+            <i class="bi bi-envelope"></i> Email Address
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control" 
+            placeholder="Enter your email" 
+            required 
+          />
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label" for="password">
+            <i class="bi bi-lock"></i> Password
+          </label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="password" 
+              class="form-control" 
+              placeholder="Enter your password" 
+              required 
+            />
+            <span class="input-group-text toggle-password" onclick="togglePassword()">
+              <i class="bi bi-eye" id="toggleIcon"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="rememberMe">
+          <label class="form-check-label" for="rememberMe">
+            Remember me
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-login">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </button>
+      </form>
+
+      <div class="footer-note">
+        <small>
+          Default Admin: gianna@orientalphotographix.com / admin123
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // PASTE YOUR FIREBASE CONFIG HERE
+const firebaseConfig = {
+  apiKey: "AIzaSyCTRbqsXKfJ5vADuT3N_Cn_Gm7lznanFfA",
+  authDomain: "oriental-photographix.firebaseapp.com",
+  projectId: "oriental-photographix",
+  storageBucket: "oriental-photographix.appspot.com",
+  messagingSenderId: "304371179783",
+  appId: "1:304371179783:web:47032045e4e84bc2f8e5a2"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Check if user is already logged in
+   onAuthStateChanged(auth, (user) => {
+  const isLoggingOut = sessionStorage.getItem('loggingOut');
+  if (user && !isLoggingOut) {
+    window.location.href = 'admin.html';
+  } else if (!user) {
+    sessionStorage.removeItem('loggingOut'); // Reset flag after full logout
+  }
+});
+
+
+    // Login Handler
+    window.handleLogin = async function(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Get user role from Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const userData = userDoc.data();
+        
+        // Store user info in sessionStorage
+        sessionStorage.setItem('userEmail', user.email);
+        sessionStorage.setItem('userRole', userData?.role || 'staff');
+        sessionStorage.setItem('userName', userData?.name || 'User');
+        sessionStorage.setItem('userId', user.uid);
+        
+        if (rememberMe) {
+          localStorage.setItem('rememberUser', user.email);
+        }
+        
+        showAlert('Login successful! Redirecting...', 'success');
+        
+        setTimeout(() => {
+          window.location.href = 'admin.html';
+        }, 1000);
+        
+      } catch (error) {
+        console.error('Login error:', error);
+        let errorMessage = 'Login failed. Please check your credentials.';
+        
+        if (error.code === 'auth/user-not-found') {
+          errorMessage = 'No account found with this email.';
+        } else if (error.code === 'auth/wrong-password') {
+          errorMessage = 'Incorrect password.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Invalid email address.';
+        } else if (error.code === 'auth/invalid-credential') {
+          errorMessage = 'Invalid email or password.';
+        }
+        
+        showAlert(errorMessage, 'danger');
+      }
+    };
+
+    // Toggle Password Visibility
+    window.togglePassword = function() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggleIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('bi-eye');
+        toggleIcon.classList.add('bi-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('bi-eye-slash');
+        toggleIcon.classList.add('bi-eye');
+      }
+    };
+
+    // Show Alert
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      alertContainer.innerHTML = alertHtml;
+      
+      setTimeout(() => {
+        const alert = alertContainer.querySelector('.alert');
+        if (alert) {
+          bootstrap.Alert.getOrCreateInstance(alert).close();
+        }
+      }, 5000);
+    }
+
+    // Pre-fill email if remembered
+    const rememberedUser = localStorage.getItem('rememberUser');
+    if (rememberedUser) {
+      document.getElementById('email').value = rememberedUser;
+      document.getElementById('rememberMe').checked = true;
+    }
+  </script>
+
+</body>
+</html>

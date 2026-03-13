@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oriental Photographix - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR4nO2WsUoDQRCGv0QwYiFYiI1gI1hZWFhYWVn4CL6Aj+Aj+Ag+go+Qh7CwsLKwsrKysLCwEAQLC0EQLETk4IbZy+5lL3eJhfnhYJfdnf/bmZ3dheqqq64WBegBBsAYMAFcAbfAB/AL/ADXwAQwCvQDHW1BfwgYBaaAZ8CX6AmYBgaBtnrQd2rAHwI+Y+gP+ATGgVpT0HfqhH+uEP0nMAt01oO+Uxf8eSX6S+AAWIE1kI0BO8BppegvgY16oO/UDJ9XQD8C9IfQu8AxMBNC/wZsVoX+SfSnFdBvhqDfpvz7T4H1sug/q6DfCqE/A/Yqol9LQb9bBv1OBfSbIfTTknkQp1lgMWL9B7CSQP+hbAIuK6DvikHvJdCbJaMAm4Bn1XwAfWXQW0oE+3FLbKaMbqvvHrFR+z0Dvmfot1LQ91VTk8C9Gn4CuqPohyXTpqTQjxTl9IbegJv0InH0CxL5tfiTO0VbNGnF0Y9K5tuiIu0D31rXHjBUBL0jmXeL6pwDvs2qc7cI+hHJ7MVVpy0n3gTQLRYaAXaBU039TzVbdP2v+gOs6IVwWJWiTgAAAABJRU5ErkJggg==">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .top-header {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .top-header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .top-header nav a {
+      color: rgba(255,255,255,0.9);
+      margin-left: 1.5rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .top-header nav a:hover, .top-header nav a.active {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    .main-content {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .welcome-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .digital-clock {
+      font-size: 2rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      margin-top: 1rem;
+    }
+
+    .stats-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      height: 100%;
+      border-left: 4px solid;
+    }
+
+    .stats-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .stats-card.primary { border-color: #007bff; }
+    .stats-card.success { border-color: #28a745; }
+    .stats-card.warning { border-color: #ffc107; }
+    .stats-card.info { border-color: #17a2b8; }
+
+    .stats-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stats-label {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .alert-card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 3rem;
+      color: #6c757d;
+    }
+
+    @media (max-width: 768px) {
+      .main-content { padding: 1rem; }
+      .stats-number { font-size: 2rem; }
+      .top-header nav { margin-left: 0; margin-top: 1rem; width: 100%; }
+      .top-header nav a { margin: 0 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-header">
+    <div class="header-content">
+      <h1><img src="logo.png" alt="Oriental Photographix Logo" style="height: 40px; margin-right: 10px; vertical-align: middle;"> ORIENTAL PHOTOGRAPHIX</h1>
+      <nav>
+        <a href="admin.html" class="active">Dashboard</a>
+        <a href="inventory_system.html">Inventory</a>
+ 
+        <a href="logout.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="welcome-banner">
+      <h2><i class="bi bi-person-circle"></i> Welcome back, <span id="userName">Admin</span>!</h2>
+      <p class="mb-0">Here's an overview of your photography business</p>
+      <div class="digital-clock" id="currentTime"></div>
+    </div>
+
+    <div class="loading-state" id="loadingState">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Loading dashboard data...</p>
+    </div>
+
+    <div id="dashboardContent" style="display: none;">
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="stats-card primary">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="stats-number text-primary" id="totalValue">₱0</div>
+                <div class="stats-label">Total Inventory Value</div>
+              </div>
+              <i class="bi bi-currency-dollar text-primary" style="font-size: 3rem; opacity: 0.3;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="stats-card success">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="stats-number text-success" id="totalItems">0</div>
+                <div class="stats-label">Total Items</div>
+              </div>
+              <i class="bi bi-box-seam text-success" style="font-size: 3rem; opacity: 0.3;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="stats-card warning">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="stats-number text-warning" id="lowStock">0</div>
+                <div class="stats-label">Low Stock Alerts</div>
+              </div>
+              <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem; opacity: 0.3;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="stats-card info">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="stats-number text-info" id="categories">0</div>
+                <div class="stats-label">Categories</div>
+              </div>
+              <i class="bi bi-grid text-info" style="font-size: 3rem; opacity: 0.3;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-lg-12">
+          <div class="chart-container">
+            <h5><i class="bi bi-bar-chart"></i> Inventory Distribution by Category</h5>
+            <canvas id="categoryChart" height="80"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="alert alert-warning alert-card" id="lowStockAlert" style="display: none;">
+            <h6 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Low Stock Alert</h6>
+            <div id="lowStockItems"></div>
+            <hr>
+            <a href="inventory_system.html" class="btn btn-warning btn-sm">View Inventory</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, query, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    // PASTE YOUR FIREBASE CONFIG HERE
+const firebaseConfig = {
+  apiKey: "AIzaSyCTRbqsXKfJ5vADuT3N_Cn_Gm7lznanFfA",
+  authDomain: "oriental-photographix.firebaseapp.com",
+  projectId: "oriental-photographix",
+  storageBucket: "oriental-photographix.appspot.com",
+  messagingSenderId: "304371179783",
+  appId: "1:304371179783:web:47032045e4e84bc2f8e5a2"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+
+    // Optional: also add dark-mode class to elements
+    document.querySelectorAll('.navbar, .card, .btn, .table').forEach(el => {
+      el.classList.add('dark-mode');
+    });
+  }
+    onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // not logged in → send to login page
+    window.location.replace("index.html");
+  } else {
+    // logged in → load dashboard
+    document.body.style.display = "block";
+    loadDashboard();
+  }
+});
+
+document.body.style.display = "none";
+
+    let inventory = [];
+    let categoryChart = null;
+
+    // Update clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Get user name
+    const userName = sessionStorage.getItem('userName') || 'Admin';
+    document.getElementById('userName').textContent = userName;
+
+    // Load dashboard data in real-time
+    function loadDashboard() {
+      try {
+        const q = query(collection(db, 'inventory'));
+        
+        onSnapshot(q, (snapshot) => {
+          inventory = [];
+          snapshot.forEach((doc) => {
+            inventory.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          });
+          
+          updateDashboard();
+          
+          document.getElementById('loadingState').style.display = 'none';
+          document.getElementById('dashboardContent').style.display = 'block';
+        }, (error) => {
+          console.error('Error loading dashboard:', error);
+          document.getElementById('loadingState').innerHTML = `
+            <div class="alert alert-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+              Error loading data. Please check your Firebase configuration.
+            </div>
+          `;
+        });
+
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    function updateDashboard() {
+      const totalItems = inventory.length;
+      const totalValue = inventory.reduce((sum, item) => 
+        sum + (item.quantity * item.unitPrice), 0
+      );
+      const lowStockItems = inventory.filter(item => 
+        item.quantity > 0 && item.quantity <= (item.minStock || 10)
+      );
+      const outOfStockItems = inventory.filter(item => item.quantity === 0);
+      const categories = [...new Set(inventory.map(item => item.category))];
+
+      document.getElementById('totalValue').textContent = '₱' + totalValue.toLocaleString('en-PH');
+      document.getElementById('totalItems').textContent = totalItems;
+      document.getElementById('lowStock').textContent = lowStockItems.length + outOfStockItems.length;
+      document.getElementById('categories').textContent = categories.length;
+
+      updateCategoryChart();
+      updateLowStockAlerts(lowStockItems, outOfStockItems);
+    }
+
+    function updateCategoryChart() {
+      const categoryData = {};
+      inventory.forEach(item => {
+        categoryData[item.category] = (categoryData[item.category] || 0) + 1;
+      });
+
+      const labels = Object.keys(categoryData);
+      const data = Object.values(categoryData);
+      const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6f42c1'];
+
+      if (categoryChart) {
+        categoryChart.destroy();
+      }
+
+      const ctx = document.getElementById('categoryChart').getContext('2d');
+      categoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Number of Items',
+            data: data,
+            backgroundColor: colors.slice(0, labels.length),
+            borderWidth: 0,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateLowStockAlerts(lowStock, outOfStock) {
+      const alertDiv = document.getElementById('lowStockAlert');
+      const itemsList = document.getElementById('lowStockItems');
+
+      if (lowStock.length === 0 && outOfStock.length === 0) {
+        alertDiv.style.display = 'none';
+        return;
+      }
+
+      alertDiv.style.display = 'block';
+      let html = '<p><strong>You have ' + (lowStock.length + outOfStock.length) + ' items that need attention:</strong></p><ul class="mb-0">';
+      
+      outOfStock.forEach(item => {
+    html += `<li><strong>${item.name}</strong> (${item.itemCode}) - <span class="text-danger">OUT OF STOCK</span></li>`;
+      });
+
+      
+      lowStock.forEach(item => {
+        html += `<li><strong>${item.name}</strong> (${item.itemCode}) - Only ${item.quantity} remaining</li>`;
+      });
+      
+      html += '</ul>';
+      itemsList.innerHTML = html;
+    }
+
+    loadDashboard();
+
+    (function(){
+    const KEY = 'site_dark_mode_v1';
+    try {
+      if (localStorage.getItem(KEY) === 'true') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    } catch(e) {
+      console.warn('dark-mode read error', e);
+    }
+  })();
+
+  </script>
+
+</body>
+</html>

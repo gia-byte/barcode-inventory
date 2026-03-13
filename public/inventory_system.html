@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oriental Photographix - Inventory Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+    }
+    
+    .top-header {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+    
+    .top-header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      font-weight: 600;
+    }
+    
+    .top-header nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .top-header nav a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .top-header nav a:hover, .top-header nav a.active {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+    }
+    
+    .main-content {
+      padding: 1rem;
+    }
+    
+    @media (min-width: 768px) {
+      .main-content {
+        padding: 2rem;
+      }
+    }
+    
+    .stats-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      border-left: 4px solid #007bff;
+      transition: transform 0.2s ease;
+      margin-bottom: 1rem;
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #003366;
+    }
+    
+    .inventory-table {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .table-responsive {
+      overflow-x: auto;
+    }
+    
+    .table th {
+      background-color: #f8f9fa;
+      border: none;
+      font-weight: 600;
+      color: #495057;
+      padding: 1rem;
+      white-space: nowrap;
+    }
+    
+    .table td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-color: #e9ecef;
+    }
+    
+    .btn-action {
+      padding: 0.375rem 0.75rem;
+      margin: 0 0.25rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-edit {
+      background-color: #ffc107;
+      color: #212529;
+    }
+    
+    .btn-edit:hover {
+      background-color: #ffb300;
+      transform: scale(1.05);
+    }
+    
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .btn-delete:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+    }
+    
+    .stock-status {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+    
+    .stock-high {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .stock-medium {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    
+    .stock-low {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .search-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, #003366, #004080);
+      color: white;
+    }
+    
+    .modal-header .btn-close {
+      filter: invert(1);
+    }
+    
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .loading-spinner.active {
+      display: block;
+    }
+
+    .connection-status {
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.875rem;
+      margin-left: 1rem;
+    }
+
+    .connected {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .disconnected {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .top-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .top-header nav {
+        margin-top: 1rem;
+        justify-content: center;
+      }
+
+      .stats-number {
+        font-size: 1.5rem;
+      }
+
+      .table {
+        font-size: 0.875rem;
+      }
+
+      .search-section .row > div {
+        margin-bottom: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="top-header">
+    <div>
+      <h1><i class="bi bi-camera"></i> ORIENTAL PHOTOGRAPHIX</h1>
+      <span class="connection-status disconnected" id="connectionStatus">
+        <i class="bi bi-circle-fill"></i> Connecting...
+      </span>
+    </div>
+    <nav>
+      <a href="admin.html">Dashboard</a>
+      <a href="inventory_system.html" class="active">Inventory</a>
+      <a href="settings.html">Settings</a>
+      <a href="index.html">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Alert Messages -->
+    <div id="alertContainer"></div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading inventory data...</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-6">
+        <div class="stats-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number" id="totalItems">0</div>
+              <div class="text-muted">Total Items</div>
+            </div>
+            <i class="bi bi-box-seam text-primary" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-success" id="inStock">0</div>
+              <div class="text-muted">In Stock</div>
+            </div>
+            <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-warning" id="lowStock">0</div>
+              <div class="text-muted">Low Stock</div>
+            </div>
+            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stats-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="stats-number text-danger" id="outOfStock">0</div>
+              <div class="text-muted">Out of Stock</div>
+            </div>
+            <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Add Section -->
+    <div class="search-section">
+      <div class="row align-items-center">
+        <div class="col-md-4 col-12 mb-2">
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search inventory...">
+          </div>
+        </div>
+        <div class="col-md-3 col-6 mb-2">
+          <select class="form-select" id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Camera">Camera</option>
+            <option value="Lens">Lens</option>
+            <option value="Lighting">Lighting</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Memory">Memory Cards</option>
+            <option value="Tripods">Tripods</option>
+          </select>
+        </div>
+        <div class="col-md-3 col-6 mb-2">
+          <select class="form-select" id="stockFilter">
+            <option value="">All Stock Levels</option>
+            <option value="high">High Stock (>50)</option>
+            <option value="medium">Medium Stock (11-50)</option>
+            <option value="low">Low Stock (1-10)</option>
+            <option value="out">Out of Stock (0)</option>
+          </select>
+        </div>
+        <div class="col-md-2 col-12 mb-2">
+          <button class="btn btn-primary w-100" onclick="openAddModal()">
+            <i class="bi bi-plus"></i> Add Item
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="inventory-table">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Item Code</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Brand</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total Value</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryTableBody">
+            <!-- Inventory items will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Item Modal -->
+  <div class="modal fade" id="itemModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Add New Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="itemForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="itemCode" class="form-label">Item Code *</label>
+                <input type="text" class="form-control" id="itemCode" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="itemName" class="form-label">Item Name *</label>
+                <input type="text" class="form-control" id="itemName" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="category" class="form-label">Category *</label>
+                <select class="form-select" id="category" required>
+                  <option value="">Select Category</option>
+                  <option value="Camera">Camera</option>
+                  <option value="Lens">Lens</option>
+                  <option value="Lighting">Lighting</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Memory">Memory Cards</option>
+                  <option value="Tripods">Tripods</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="brand" class="form-label">Brand</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="quantity" class="form-label">Quantity *</label>
+                <input type="number" class="form-control" id="quantity" min="0" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="unitPrice" class="form-label">Unit Price (₱) *</label>
+                <input type="number" class="form-control" id="unitPrice" step="0.01" min="0" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="minStock" class="form-label">Min Stock Level</label>
+                <input type="number" class="form-control" id="minStock" min="0" value="10">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <input type="hidden" id="editId" value="">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveItem()">Save Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // ========================================
+    // STEP 1: PASTE YOUR FIREBASE CONFIG HERE
+    // ========================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCTRbqsXKfJ5vADuT3N_Cn_Gm7lznanFfA",
+  authDomain: "oriental-photographix.firebaseapp.com",
+  projectId: "oriental-photographix",
+  storageBucket: "oriental-photographix.firebasestorage.app",
+  messagingSenderId: "304371179783",
+  appId: "1:304371179783:web:47032045e4e84bc2f8e5a2"
+};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Global variables
+    let inventory = [];
+    let currentEditId = null;
+
+    // Update connection status
+    function updateConnectionStatus(connected) {
+      const statusElement = document.getElementById('connectionStatus');
+      if (connected) {
+        statusElement.className = 'connection-status connected';
+        statusElement.innerHTML = '<i class="bi bi-circle-fill"></i> Connected';
+      } else {
+        statusElement.className = 'connection-status disconnected';
+        statusElement.innerHTML = '<i class="bi bi-circle-fill"></i> Disconnected';
+      }
+    }
+
+    // Load inventory from Firebase
+    async function loadInventory() {
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      loadingSpinner.classList.add('active');
+
+      try {
+        const q = query(collection(db, 'inventory'), orderBy('itemCode'));
+        
+        // Real-time listener
+        onSnapshot(q, (snapshot) => {
+          inventory = [];
+          snapshot.forEach((doc) => {
+            inventory.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          });
+          
+          renderInventory();
+          updateConnectionStatus(true);
+          loadingSpinner.classList.remove('active');
+        }, (error) => {
+          console.error('Error loading inventory:', error);
+          showAlert('Error connecting to database. Please check your internet connection.', 'danger');
+          updateConnectionStatus(false);
+          loadingSpinner.classList.remove('active');
+        });
+
+      } catch (error) {
+        console.error('Error setting up listener:', error);
+        showAlert('Failed to connect to database. Please check your Firebase configuration.', 'danger');
+        updateConnectionStatus(false);
+        loadingSpinner.classList.remove('active');
+      }
+    }
+
+    // Render inventory table
+    function renderInventory(items = inventory) {
+      const tbody = document.getElementById('inventoryTableBody');
+      tbody.innerHTML = '';
+
+      if (items.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="text-center py-4">
+              <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+              <p class="mt-2 text-muted">No items in inventory. Click "Add Item" to get started.</p>
+            </td>
+          </tr>
+        `;
+        updateStatistics();
+        return;
+      }
+
+      items.forEach((item) => {
+        const totalValue = item.quantity * item.unitPrice;
+        const stockStatus = getStockStatus(item.quantity, item.minStock);
+        
+        const row = `
+          <tr>
+            <td><strong>${item.itemCode}</strong></td>
+            <td>${item.name}</td>
+            <td><span class="badge bg-secondary">${item.category}</span></td>
+            <td>${item.brand || '-'}</td>
+            <td><strong>${item.quantity}</strong></td>
+            <td>₱${item.unitPrice.toLocaleString()}</td>
+            <td><strong>₱${totalValue.toLocaleString()}</strong></td>
+            <td><span class="stock-status ${stockStatus.class}">${stockStatus.text}</span></td>
+            <td>
+              <button class="btn btn-action btn-edit" onclick="window.editItem('${item.id}')" title="Edit">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-action btn-delete" onclick="window.deleteItem('${item.id}')" title="Delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+
+      updateStatistics();
+    }
+
+    function getStockStatus(quantity, minStock) {
+      if (quantity === 0) {
+        return { class: 'stock-low', text: 'Out of Stock' };
+      } else if (quantity <= minStock) {
+        return { class: 'stock-low', text: 'Low Stock' };
+      } else if (quantity <= 50) {
+        return { class: 'stock-medium', text: 'Medium Stock' };
+      } else {
+        return { class: 'stock-high', text: 'High Stock' };
+      }
+    }
+
+    function updateStatistics() {
+      const totalItems = inventory.length;
+      const inStock = inventory.filter(item => item.quantity > item.minStock).length;
+      const lowStock = inventory.filter(item => item.quantity > 0 && item.quantity <= item.minStock).length;
+      const outOfStock = inventory.filter(item => item.quantity === 0).length;
+
+      document.getElementById('totalItems').textContent = totalItems;
+      document.getElementById('inStock').textContent = inStock;
+      document.getElementById('lowStock').textContent = lowStock;
+      document.getElementById('outOfStock').textContent = outOfStock;
+    }
+
+    // Add/Edit item functions
+    window.openAddModal = function() {
+      currentEditId = null;
+      document.getElementById('modalTitle').textContent = 'Add New Item';
+      document.getElementById('itemForm').reset();
+      document.getElementById('editId').value = '';
+      new bootstrap.Modal(document.getElementById('itemModal')).show();
+    };
+
+    window.editItem = function(id) {
+      const item = inventory.find(i => i.id === id);
+      if (!item) return;
+
+      currentEditId = id;
+      document.getElementById('modalTitle').textContent = 'Edit Item';
+      document.getElementById('itemCode').value = item.itemCode;
+      document.getElementById('itemName').value = item.name;
+      document.getElementById('category').value = item.category;
+      document.getElementById('brand').value = item.brand || '';
+      document.getElementById('quantity').value = item.quantity;
+      document.getElementById('unitPrice').value = item.unitPrice;
+      document.getElementById('minStock').value = item.minStock;
+      document.getElementById('description').value = item.description || '';
+      document.getElementById('editId').value = id;
+      
+      new bootstrap.Modal(document.getElementById('itemModal')).show();
+    };
+
+    window.saveItem = async function() {
+      const form = document.getElementById('itemForm');
+      
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const itemData = {
+        itemCode: document.getElementById('itemCode').value,
+        name: document.getElementById('itemName').value,
+        category: document.getElementById('category').value,
+        brand: document.getElementById('brand').value,
+        quantity: parseInt(document.getElementById('quantity').value),
+        unitPrice: parseFloat(document.getElementById('unitPrice').value),
+        minStock: parseInt(document.getElementById('minStock').value) || 10,
+        description: document.getElementById('description').value,
+        updatedAt: new Date().toISOString()
+      };
+
+      try {
+        if (currentEditId) {
+          // Update existing item
+          await updateDoc(doc(db, 'inventory', currentEditId), itemData);
+          showAlert('Item updated successfully!', 'success');
+        } else {
+          // Add new item
+          itemData.createdAt = new Date().toISOString();
+          await addDoc(collection(db, 'inventory'), itemData);
+          showAlert('Item added successfully!', 'success');
+        }
+
+        bootstrap.Modal.getInstance(document.getElementById('itemModal')).hide();
+      } catch (error) {
+        console.error('Error saving item:', error);
+        showAlert('Error saving item. Please try again.', 'danger');
+      }
+    };
+
+    window.deleteItem = async function(id) {
+      const item = inventory.find(i => i.id === id);
+      if (!confirm(`Are you sure you want to delete "${item.name}"?`)) return;
+
+      try {
+        await deleteDoc(doc(db, 'inventory', id));
+        showAlert(`Item "${item.name}" deleted successfully!`, 'success');
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        showAlert('Error deleting item. Please try again.', 'danger');
+      }
+    };
+
+    // Filter functions
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const categoryFilter = document.getElementById('categoryFilter').value;
+      const stockFilter = document.getElementById('stockFilter').value;
+
+      let filteredItems = inventory.filter(item => {
+        const matchesSearch = !searchTerm || 
+          item.name.toLowerCase().includes(searchTerm) ||
+          item.itemCode.toLowerCase().includes(searchTerm) ||
+          item.brand?.toLowerCase().includes(searchTerm);
+
+        const matchesCategory = !categoryFilter || item.category === categoryFilter;
+
+        let matchesStock = true;
+        if (stockFilter) {
+          switch(stockFilter) {
+            case 'high':
+              matchesStock = item.quantity > 50;
+              break;
+            case 'medium':
+              matchesStock = item.quantity > 10 && item.quantity <= 50;
+              break;
+            case 'low':
+              matchesStock = item.quantity > 0 && item.quantity <= 10;
+              break;
+            case 'out':
+              matchesStock = item.quantity === 0;
+              break;
+          }
+        }
+
+        return matchesSearch && matchesCategory && matchesStock;
+      });
+
+      renderInventory(filteredItems);
+    }
+
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alertId = 'alert-' + Date.now();
+      
+      const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show" id="${alertId}" role="alert">
+          <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      
+      alertContainer.innerHTML = alertHtml;
+      
+      setTimeout(() => {
+        const alert = document.getElementById(alertId);
+        if (alert) {
+          bootstrap.Alert.getOrCreateInstance(alert).close();
+        }
+      }, 5000);
+    }
+
+    // Event listeners
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+    document.getElementById('stockFilter').addEventListener('change', applyFilters);
+
+    // Initialize
+    loadInventory();
+  </script>
+
+</body>
+</html>

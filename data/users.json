@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "$2a$10$v1ZBZvTt0KWItCgaBLI7/.KoguWwwGdKLNZo1Q/edKj6QoYg65QnG",
+    "email": "admin@orientalphotographix.com",
+    "role": "admin",
+    "createdAt": "2025-10-20T19:08:46.002Z"
+  }
+]

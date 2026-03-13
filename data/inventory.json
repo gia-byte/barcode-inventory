@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "itemCode": "CAM001",
+    "name": "Canon EOS R5",
+    "category": "Camera",
+    "brand": "Canon",
+    "quantity": 15,
+    "unitPrice": 185000,
+    "minStock": 5,
+    "description": "Professional mirrorless camera",
+    "createdAt": "2025-10-20T19:08:46.006Z",
+    "updatedAt": "2025-10-20T19:08:46.006Z"
+  }
+]
