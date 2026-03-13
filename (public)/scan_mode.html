@@ -1068,6 +1068,17 @@
     const db   = getFirestore(app);
     const auth = getAuth(app);
 
+    // ─── CLOUDINARY CONFIG ────────────────────────────────────────────────
+    const CLOUD_NAME    = 'dglfuac6c';
+    const UPLOAD_PRESET = 'oriental-photographix';
+
+    // Build a smaller thumbnail URL using Cloudinary's on-the-fly transforms.
+    // Scan mode is read-only so we only need this — no upload functions here.
+    function cloudinaryThumb(url, w = 300, h = 300) {
+      if (!url || !url.includes('cloudinary')) return url;
+      return url.replace('/upload/', `/upload/w_${w},h_${h},c_fill,q_auto,f_auto/`);
+    }
+
     // ─── Session ID ───────────────────────────────────────────────────────
     // Generated once per page load. Lets "This Session" filter in Log History
     // isolate only the logs written during the current browser session.
@@ -1269,7 +1280,8 @@
       const img   = document.getElementById('itemImage');
       const noImg = document.getElementById('itemNoImg');
       if (item.imageUrl) {
-        img.src = item.imageUrl; img.style.display = 'block'; noImg.style.display = 'none';
+        img.src = cloudinaryThumb(item.imageUrl, 400, 300);
+        img.style.display = 'block'; noImg.style.display = 'none';
       } else {
         img.style.display = 'none'; noImg.style.display = 'block';
       }

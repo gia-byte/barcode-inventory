@@ -352,13 +352,13 @@
         </div>
         <div class="col-md-5 col-12 mb-2">
           <div class="d-flex gap-2">
-            <button class="btn btn-primary flex-fill" onclick="openAddModal()">
+            <button class="btn btn-primary flex-fill" onclick="window.openAddModal()">
               <i class="bi bi-plus"></i> Add Item
             </button>
-            <button class="btn btn-success flex-fill" onclick="openStockModal('add')">
+            <button id="addStockBtn" class="btn btn-success flex-fill">
               <i class="bi bi-plus-circle"></i> Add Stock
             </button>
-            <button class="btn btn-danger flex-fill" onclick="openStockModal('remove')">
+            <button id="removeStockBtn" class="btn btn-danger flex-fill">
               <i class="bi bi-dash-circle"></i> Remove Stock
             </button>
           </div>
@@ -372,6 +372,7 @@
         <table class="table table-hover mb-0">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Item Code</th>
               <th>Name</th>
               <th>Category</th>
@@ -459,6 +460,40 @@
               </div>
             </div>
             <div class="mb-3">
+              <label class="form-label fw-semibold">Product Image</label>
+              <div id="imagePreviewBox"
+                   style="width:100%; height:160px; border:2px dashed #dee2e6; border-radius:10px;
+                          display:flex; align-items:center; justify-content:center;
+                          background:#f8f9fa; overflow:hidden; margin-bottom:0.75rem; cursor:pointer;"
+                   onclick="document.getElementById('imageFileInput').click()">
+                <img id="imagePreview" src="" alt=""
+                     style="display:none; width:100%; height:100%; object-fit:contain;">
+                <div id="imagePreviewEmpty" style="text-align:center; color:#adb5bd;">
+                  <i class="bi bi-image" style="font-size:2.5rem; display:block;"></i>
+                  <small>Click to select image</small>
+                </div>
+              </div>
+              <input type="file" id="imageFileInput" accept="image/*" style="display:none;"
+                     onchange="window.handleImageSelect(event)">
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-primary btn-sm flex-fill"
+                        onclick="document.getElementById('imageFileInput').click()">
+                  <i class="bi bi-upload me-1"></i> Choose Image
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        id="removeImageBtn" onclick="window.removeImage()" style="display:none;">
+                  <i class="bi bi-x-circle me-1"></i> Remove
+                </button>
+              </div>
+              <div class="mt-2" id="uploadProgressWrap" style="display:none;">
+                <div class="progress" style="height:6px; border-radius:99px;">
+                  <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                       id="uploadProgressBar" style="width:0%"></div>
+                </div>
+                <small class="text-muted" id="uploadProgressLabel">Uploading...</small>
+              </div>
+            </div>
+            <div class="mb-3">
               <label for="description" class="form-label">Description</label>
               <textarea class="form-control" id="description" rows="3"></textarea>
             </div>
@@ -467,7 +502,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" onclick="saveItem()">Save Item</button>
+          <button type="button" class="btn btn-primary" onclick="window.saveItem()">Save Item</button>
         </div>
       </div>
     </div>
@@ -505,7 +540,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="saveStockBtn" onclick="saveStockChange()" disabled>Save</button>
+          <button type="button" class="btn btn-primary" id="saveStockBtn" onclick="window.saveStockChange()" disabled>Save</button>
         </div>
       </div>
     </div>
@@ -519,6 +554,7 @@
     // Import Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
     // Firebase Configuration
     const firebaseConfig = {
@@ -535,68 +571,111 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-// ─── CLOUDINARY CONFIG ───────────────────────────────────────────
-const CLOUD_NAME     = 'your_cloud_name_here';    // ← replace
-const UPLOAD_PRESET  = 'your_upload_preset_here'; // ← replace
-const UPLOAD_URL     = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+    // Auth guard
+    onAuthStateChanged(auth, user => {
+      if (!user) window.location.replace('index.html');
+    });
 
-// ─── UPLOAD IMAGE TO CLOUDINARY ──────────────────────────────────
-// Accepts a File object, returns { url, publicId } on success.
-// Compresses the image client-side before uploading (saves bandwidth + storage).
-async function uploadToCloudinary(file) {
-  // 1. Compress via Canvas — max 800px wide, JPEG at 80% quality
-  const compressed = await compressImage(file, 800, 0.8);
+    // ─── CLOUDINARY CONFIG ────────────────────────────────────────────────
+    const CLOUD_NAME    = 'dglfuac6c';
+    const UPLOAD_PRESET = 'oriental-photographix';
+    const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
-  // 2. Build FormData for the unsigned upload endpoint
-  const form = new FormData();
-  form.append('file',           compressed);
-  form.append('upload_preset',  UPLOAD_PRESET);
-  form.append('folder',         'oriental-photographix/inventory');
+    // Compress image client-side before uploading (max 800px wide, 80% JPEG quality)
+    function compressImage(file, maxWidth, quality) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload  = e => { img.src = e.target.result; };
+        reader.onerror = reject;
+        img.onload = () => {
+          const scale  = Math.min(1, maxWidth / img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width  = Math.round(img.width  * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
 
-  const res  = await fetch(UPLOAD_URL, { method: 'POST', body: form });
-  const data = await res.json();
+    // Upload a File to Cloudinary, returns { url, publicId }
+    async function uploadToCloudinary(file) {
+      const compressed = await compressImage(file, 800, 0.8);
+      const form = new FormData();
+      form.append('file',          compressed);
+      form.append('upload_preset', UPLOAD_PRESET);
+      form.append('folder',        'oriental-photographix/inventory');
+      const res  = await fetch(UPLOAD_URL, { method: 'POST', body: form });
+      const data = await res.json();
+      if (!res.ok) {
+        console.error('Cloudinary error response:', data);
+        throw new Error(data.error?.message ?? 'Upload failed');
+      }
+      console.log('Cloudinary upload success:', data.secure_url);
+      return { url: data.secure_url, publicId: data.public_id };
+    }
 
-  if (!res.ok) throw new Error(data.error?.message ?? 'Upload failed');
+    // Build a Cloudinary thumbnail URL using on-the-fly transformations
+    function cloudinaryThumb(url, w = 300, h = 300) {
+      if (!url || !url.includes('cloudinary')) return url;
+      return url.replace('/upload/', `/upload/w_${w},h_${h},c_fill,q_auto,f_auto/`);
+    }
 
-  return {
-    url:      data.secure_url,   // HTTPS URL — save this to Firestore
-    publicId: data.public_id     // Used to build transformed URLs (thumbnails etc.)
-  };
-}
+    // ─── IMAGE FIELD STATE ────────────────────────────────────────────────
+    let pendingImageFile = null;
+    let currentImageUrl  = null;
+    let currentPublicId  = null;
 
-// ─── CLIENT-SIDE IMAGE COMPRESSION ───────────────────────────────
-// Draws the image onto a canvas and re-exports as JPEG.
-// Prevents huge RAW or phone photos from being uploaded as-is.
-function compressImage(file, maxWidth, quality) {
-  return new Promise((resolve, reject) => {
-    const img    = new Image();
-    const reader = new FileReader();
-
-    reader.onload  = e  => { img.src = e.target.result; };
-    reader.onerror = reject;
-
-    img.onload = () => {
-      const scale  = Math.min(1, maxWidth / img.width);
-      const canvas = document.createElement('canvas');
-      canvas.width  = Math.round(img.width  * scale);
-      canvas.height = Math.round(img.height * scale);
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+    window.handleImageSelect = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      pendingImageFile = file;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('imagePreview').src = ev.target.result;
+        document.getElementById('imagePreview').style.display    = 'block';
+        document.getElementById('imagePreviewEmpty').style.display = 'none';
+        document.getElementById('removeImageBtn').style.display  = '';
+      };
+      reader.readAsDataURL(file);
     };
 
-    reader.readAsDataURL(file);
-  });
-}
+    window.removeImage = function() {
+      pendingImageFile = null;
+      currentImageUrl  = null;
+      currentPublicId  = null;
+      document.getElementById('imagePreview').src               = '';
+      document.getElementById('imagePreview').style.display     = 'none';
+      document.getElementById('imagePreviewEmpty').style.display = 'block';
+      document.getElementById('removeImageBtn').style.display   = 'none';
+      document.getElementById('imageFileInput').value           = '';
+    };
 
-// ─── BUILD CLOUDINARY THUMBNAIL URL ──────────────────────────────
-// Uses Cloudinary's on-the-fly transformations — no separate upload needed.
-// w_300,h_300,c_fill = crop to 300×300 filled square
-function cloudinaryThumb(url, w = 300, h = 300) {
-  if (!url || !url.includes('cloudinary')) return url;
-  return url.replace('/upload/', `/upload/w_${w},h_${h},c_fill,q_auto,f_auto/`);
-}
+    function resetImageField() {
+      pendingImageFile = null;
+      currentImageUrl  = null;
+      currentPublicId  = null;
+      document.getElementById('imagePreview').src               = '';
+      document.getElementById('imagePreview').style.display     = 'none';
+      document.getElementById('imagePreviewEmpty').style.display = 'block';
+      document.getElementById('removeImageBtn').style.display   = 'none';
+      document.getElementById('imageFileInput').value           = '';
+    }
 
-    // Global variables
+    function loadImageIntoField(url, publicId) {
+      currentImageUrl = url    || null;
+      currentPublicId = publicId || null;
+      if (url) {
+        document.getElementById('imagePreview').src               = cloudinaryThumb(url, 600, 400);
+        document.getElementById('imagePreview').style.display     = 'block';
+        document.getElementById('imagePreviewEmpty').style.display = 'none';
+        document.getElementById('removeImageBtn').style.display   = '';
+      } else {
+        resetImageField();
+      }
+    }
     let inventory = [];
     let currentEditId = null;
     let stockModalMode = 'add';
@@ -658,7 +737,7 @@ function cloudinaryThumb(url, w = 300, h = 300) {
       if (items.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" class="text-center py-4">
+            <td colspan="11" class="text-center py-4">
               <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
               <p class="mt-2 text-muted">No items in inventory. Click "Add Item" to get started.</p>
             </td>
@@ -674,6 +753,20 @@ function cloudinaryThumb(url, w = 300, h = 300) {
         
         const row = `
           <tr>
+            <td>
+              ${item.imageUrl
+                ? `<img src="${cloudinaryThumb(item.imageUrl, 48, 48)}"
+                        style="width:44px; height:44px; object-fit:cover; border-radius:6px; border:1px solid #e9ecef;"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                   <div style="display:none; width:44px; height:44px; border-radius:6px; background:#f8f9fa;
+                               border:1px solid #e9ecef; align-items:center; justify-content:center;">
+                     <i class="bi bi-image text-muted"></i>
+                   </div>`
+                : `<div style="width:44px; height:44px; border-radius:6px; background:#f8f9fa;
+                               border:1px solid #e9ecef; display:flex; align-items:center; justify-content:center;">
+                     <i class="bi bi-image text-muted"></i>
+                   </div>`}
+            </td>
             <td>
         <strong>${item.itemCode}</strong>
         ${item.barcode
@@ -745,6 +838,7 @@ function cloudinaryThumb(url, w = 300, h = 300) {
       document.getElementById('modalTitle').textContent = 'Add New Item';
       document.getElementById('itemForm').reset();
       document.getElementById('editId').value = '';
+      resetImageField();
       new bootstrap.Modal(document.getElementById('itemModal')).show();
     };
 
@@ -764,7 +858,8 @@ function cloudinaryThumb(url, w = 300, h = 300) {
       document.getElementById('description').value = item.description || '';
       document.getElementById('editId').value = id;
       document.getElementById('barcodeField').value = item.barcode || '';
-      
+      loadImageIntoField(item.imageUrl, item.imagePublicId);
+
       new bootstrap.Modal(document.getElementById('itemModal')).show();
     };
 
@@ -776,17 +871,43 @@ function cloudinaryThumb(url, w = 300, h = 300) {
         return;
       }
 
+      // Upload new image if one was selected
+      if (pendingImageFile) {
+        try {
+          document.getElementById('uploadProgressWrap').style.display = 'block';
+          document.getElementById('uploadProgressBar').style.width = '60%';
+          document.getElementById('uploadProgressLabel').textContent = 'Uploading image...';
+
+          const { url, publicId } = await uploadToCloudinary(pendingImageFile);
+          currentImageUrl  = url;
+          currentPublicId  = publicId;
+          pendingImageFile = null;
+
+          document.getElementById('uploadProgressBar').style.width = '100%';
+          document.getElementById('uploadProgressLabel').textContent = 'Upload complete!';
+          setTimeout(() => {
+            document.getElementById('uploadProgressWrap').style.display = 'none';
+          }, 1000);
+        } catch (err) {
+          showAlert('Image upload failed: ' + err.message, 'danger');
+          document.getElementById('uploadProgressWrap').style.display = 'none';
+          return;
+        }
+      }
+
       const itemData = {
-        itemCode: document.getElementById('itemCode').value,
-        name: document.getElementById('itemName').value,
-        category: document.getElementById('category').value,
-        brand: document.getElementById('brand').value,
-        barcode: document.getElementById('barcodeField').value.trim(),
-        quantity: parseInt(document.getElementById('quantity').value),
-        unitPrice: parseFloat(document.getElementById('unitPrice').value),
-        minStock: parseInt(document.getElementById('minStock').value) || 10,
-        description: document.getElementById('description').value,
-        updatedAt: new Date().toISOString()
+        itemCode:      document.getElementById('itemCode').value,
+        name:          document.getElementById('itemName').value,
+        category:      document.getElementById('category').value,
+        brand:         document.getElementById('brand').value,
+        barcode:       document.getElementById('barcodeField').value.trim(),
+        quantity:      parseInt(document.getElementById('quantity').value),
+        unitPrice:     parseFloat(document.getElementById('unitPrice').value),
+        minStock:      parseInt(document.getElementById('minStock').value) || 10,
+        description:   document.getElementById('description').value,
+        imageUrl:      currentImageUrl  ?? null,
+        imagePublicId: currentPublicId  ?? null,
+        updatedAt:     new Date().toISOString()
       };
 
       try {
@@ -837,7 +958,8 @@ function cloudinaryThumb(url, w = 300, h = 300) {
     function searchStockItems(searchTerm) {
       const results = inventory.filter(item => 
         item.itemCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.barcode?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       
       const resultsContainer = document.getElementById('stockSearchResults');
@@ -933,7 +1055,9 @@ function cloudinaryThumb(url, w = 300, h = 300) {
         const matchesSearch = !searchTerm || 
           item.name.toLowerCase().includes(searchTerm) ||
           item.itemCode.toLowerCase().includes(searchTerm) ||
-          item.brand?.toLowerCase().includes(searchTerm);
+          item.brand?.toLowerCase().includes(searchTerm) ||
+          item.barcode?.toLowerCase().includes(searchTerm) ||
+          item.description?.toLowerCase().includes(searchTerm);
 
         const matchesCategory = !categoryFilter || item.category === categoryFilter;
 
@@ -994,22 +1118,32 @@ function cloudinaryThumb(url, w = 300, h = 300) {
       } else {
         document.getElementById('stockSearchResults').innerHTML = '';
       }
+
+     // Stock search input listener
+// Stock search input listener
+document.getElementById('stockSearchInput').addEventListener('input', function(e) {
+  const searchTerm = e.target.value.trim();
+
+  if (searchTerm.length >= 2) {
+    searchStockItems(searchTerm);
+  } else {
+    document.getElementById('stockSearchResults').innerHTML = '';
+  }
+});
+
+// Button listeners
+document.getElementById('addStockBtn').addEventListener('click', () => {
+  openStockModal('add');
+});
+
+document.getElementById('removeStockBtn').addEventListener('click', () => {
+  openStockModal('remove');
+});
     });
 
     // Initialize
     loadInventory();
   </script>
-
- 
-  // Auto-reset if nothing scanned in 8 seconds
-  setTimeout(() => {
-    field.style.borderColor = '';
-    field.style.boxShadow   = '';
-    field.placeholder = originalPlaceholder;
-    field.removeEventListener('keydown', onEnter);
-  }, 8000);
-};
-</script>
 
 </body>
 </html>
